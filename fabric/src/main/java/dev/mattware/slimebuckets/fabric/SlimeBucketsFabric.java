@@ -7,5 +7,6 @@ public class SlimeBucketsFabric implements ModInitializer {
     @Override
     public void onInitialize() {
         SlimeBuckets.init();
+        SlimeBuckets.clientInit(); // The function itself handles sided stuff
     }
 }

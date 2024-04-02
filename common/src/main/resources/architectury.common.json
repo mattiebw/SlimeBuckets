@@ -1,2 +1,5 @@
 {
+  "injected_interfaces": {
+    "net/minecraft/class_1657": ["dev/mattware/slimebuckets/PlayerCustomData"]
+  }
 }

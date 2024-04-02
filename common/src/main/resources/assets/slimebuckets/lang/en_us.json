@@ -1,5 +1,6 @@
 {
   "itemGroup.slimebuckets.slime_buckets_tab": "Slime Buckets",
 
-  "item.slimebuckets.slime_bucket": "Bucket of Slime"
+  "item.slimebuckets.slime_bucket": "Bucket of Slime",
+  "itemdesc.slimebuckets.slime_bucket": "Gets excited when you're in a slime chunk"
 }

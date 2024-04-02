@@ -1,9 +1,10 @@
 package dev.mattware.slimebuckets;
 
 import dev.architectury.registry.CreativeTabRegistry;
-import dev.architectury.registry.item.ItemPropertiesRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
+import dev.architectury.utils.Env;
+import dev.architectury.utils.EnvExecutor;
 import dev.mattware.slimebuckets.item.SlimeBucketsItems;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -27,6 +28,11 @@ public class SlimeBuckets
 		LOGGER.info("Initialising Slime Buckets ^-^");
 		// Register creative tabs, items, blocks, etc.
 		TABS.register();
+
 		SlimeBucketsItems.register();
+	}
+
+	public static void clientInit() {
+		EnvExecutor.runInEnv(Env.CLIENT, () -> SlimeBucketsItems::registerProperties);
 	}
 }
