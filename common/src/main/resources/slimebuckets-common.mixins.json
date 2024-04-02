@@ -4,6 +4,7 @@
   "package": "dev.mattware.slimebuckets.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "SlimeMixin"
   ],
   "client": [
   ],

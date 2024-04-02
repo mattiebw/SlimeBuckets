@@ -8,10 +8,14 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SlimeBuckets
 {
 	public static final String MOD_ID = "slimebuckets";
+
+	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
 	public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(MOD_ID, Registries.CREATIVE_MODE_TAB);
 	public static final RegistrySupplier<CreativeModeTab> SLIME_BUCKETS_TAB = TABS.register("slime_buckets_tab", () ->
@@ -19,6 +23,7 @@ public class SlimeBuckets
 					() -> new ItemStack(SlimeBucketsItems.EXAMPLE_ITEM.get())));
 
 	public static void init() {
+		LOGGER.info("Initialising Slime Buckets ^-^");
 		// Register creative tabs, items, blocks, etc.
 		TABS.register();
 		SlimeBucketsItems.register();
