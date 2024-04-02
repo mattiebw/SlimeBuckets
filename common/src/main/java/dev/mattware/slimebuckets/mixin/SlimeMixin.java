@@ -34,10 +34,7 @@ public class SlimeMixin {
                 if (!level.isClientSide)
                     player.displayClientMessage(Component.literal("THIS SLIME IS TOO FUCKING FAT"), true);
                 SlimeBuckets.LOGGER.info("Slime is too big :(");
-                cir.setReturnValue(InteractionResult.PASS);
             }
         }
-
-        cir.setReturnValue(InteractionResult.PASS);
     }
 }

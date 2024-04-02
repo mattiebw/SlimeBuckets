@@ -1,6 +1,7 @@
 package dev.mattware.slimebuckets;
 
 import dev.architectury.registry.CreativeTabRegistry;
+import dev.architectury.registry.item.ItemPropertiesRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import dev.mattware.slimebuckets.item.SlimeBucketsItems;

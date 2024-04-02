@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "slimebuckets:item/slime_bucket_excited"
+  }
+}
