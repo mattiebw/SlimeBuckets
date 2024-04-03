@@ -93,7 +93,7 @@ public class SlimeBucketItem extends Item {
         if(stack.hasTag()) {
             CompoundTag cmp = stack.getTag().getCompound(TAG_ENTITY_DATA);
             if(cmp != null && cmp.contains("CustomName")) {
-                return Objects.requireNonNull(Component.Serializer.fromJson(cmp.getString("CustomName")));
+                return Component.translatable("item.slimebuckets.slime_bucket_named", Component.Serializer.fromJson(cmp.getString("CustomName")));
             }
         }
 
