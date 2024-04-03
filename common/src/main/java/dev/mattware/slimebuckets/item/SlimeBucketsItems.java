@@ -11,6 +11,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 public class SlimeBucketsItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(SlimeBuckets.MOD_ID, Registries.ITEM);
@@ -27,7 +28,10 @@ public class SlimeBucketsItems {
                 new ResourceLocation("slime_chunk"),
                 (stack, clientWorld, livingEntity, i) -> {
                     if (livingEntity instanceof Player player) {
-                        return ((PlayerCustomData) player).isInSlimeChunk() ? 1 : 0;
+                        // TODO: This is probably super slow, but I want to prevent the slime chunk functionality
+                        // from working in NEI likes when you don't actually have the item.
+                        return player.getInventory().contains(new ItemStack(SlimeBucketsItems.SLIME_BUCKET.get()))
+                                && ((PlayerCustomData) player).isInSlimeChunk() ? 1 : 0;
                     } else {
                         return 0;
                     }
