@@ -14,10 +14,10 @@ public class SlimeBucketsForge {
     public SlimeBucketsForge() {
 		// Submit our event bus to let architectury register our content on the right time
         EventBuses.registerModEventBus(SlimeBuckets.MOD_ID, FMLJavaModLoadingContext.get().getModEventBus());
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);
         SlimeBuckets.init();
     }
 
-    @SubscribeEvent
     public void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(SlimeBuckets::clientInit);
     }

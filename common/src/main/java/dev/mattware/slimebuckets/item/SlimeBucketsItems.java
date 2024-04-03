@@ -27,7 +27,6 @@ public class SlimeBucketsItems {
                 new ResourceLocation("slime_chunk"),
                 (stack, clientWorld, livingEntity, i) -> {
                     if (livingEntity instanceof Player player) {
-                        SlimeBuckets.LOGGER.info("Calling, result: " + ((PlayerCustomData) player).isInSlimeChunk());
                         return ((PlayerCustomData) player).isInSlimeChunk() ? 1 : 0;
                     } else {
                         return 0;
