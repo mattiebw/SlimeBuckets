@@ -1,9 +1,11 @@
 package dev.mattware.slimebuckets.item;
 
 import dev.mattware.slimebuckets.SlimeBuckets;
+import dev.mattware.slimebuckets.particle.SlimeBucketsParticles;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -12,7 +14,9 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -28,10 +32,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Objects;
 
 public class SlimeBucketItem extends Item {
     protected EntityType slimeType = EntityType.SLIME;
+    protected ParticleOptions heldParticle;
 
     public static final String TAG_ENTITY_DATA = "slime_nbt";
 
@@ -98,5 +102,21 @@ public class SlimeBucketItem extends Item {
         }
 
         return super.getName(stack);
+    }
+
+    @Override
+    public void inventoryTick(ItemStack itemStack, Level level, Entity entity, int i, boolean bl) {
+        if (entity instanceof LivingEntity liver) {
+            if (liver.getMainHandItem() == itemStack || liver.getOffhandItem() == itemStack)
+                onHeld(liver);
+        }
+    }
+
+    public void onHeld(LivingEntity entity) {
+        if (entity.level().isClientSide && entity.level().getGameTime() % 3 == 0) {
+            if (heldParticle == null)
+                heldParticle = SlimeBucketsParticles.FALLING_SLIME.get();
+            entity.level().addParticle(heldParticle, entity.position().x, entity.position().y + 1, entity.position().z, 0, 0, 0);
+        }
     }
 }

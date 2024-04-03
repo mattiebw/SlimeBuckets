@@ -1,11 +1,13 @@
 package dev.mattware.slimebuckets;
 
+import dev.architectury.platform.Platform;
 import dev.architectury.registry.CreativeTabRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import dev.architectury.utils.Env;
 import dev.architectury.utils.EnvExecutor;
 import dev.mattware.slimebuckets.item.SlimeBucketsItems;
+import dev.mattware.slimebuckets.particle.SlimeBucketsParticles;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -30,9 +32,16 @@ public class SlimeBuckets
 		TABS.register();
 
 		SlimeBucketsItems.register();
+		SlimeBucketsParticles.register();
+		if (Platform.getEnvironment() == Env.CLIENT)
+			SlimeBucketsParticles.registerClient();
 	}
 
 	public static void clientInit() {
-		EnvExecutor.runInEnv(Env.CLIENT, () -> SlimeBucketsItems::registerProperties);
+		EnvExecutor.runInEnv(Env.CLIENT, () -> SlimeBuckets::clientInitInternal);
+	}
+
+	private static void clientInitInternal() {
+		SlimeBucketsItems.registerProperties();
 	}
 }

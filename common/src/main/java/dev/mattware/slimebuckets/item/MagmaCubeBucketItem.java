@@ -1,8 +1,8 @@
 package dev.mattware.slimebuckets.item;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -16,6 +16,7 @@ import java.util.List;
 public class MagmaCubeBucketItem extends SlimeBucketItem {
     public MagmaCubeBucketItem() {
         slimeType = EntityType.MAGMA_CUBE;
+        heldParticle = ParticleTypes.FALLING_LAVA;
     }
 
     @Override
@@ -24,14 +25,11 @@ public class MagmaCubeBucketItem extends SlimeBucketItem {
     }
 
     @Override
-    public void inventoryTick(ItemStack itemStack, Level level, Entity entity, int i, boolean bl) {
-        if (entity instanceof LivingEntity liver) {
-            if (liver.isInWater()) return;
-            if (liver instanceof Player player && player.getAbilities().invulnerable) return;
-            if (liver.getMainHandItem() == itemStack || liver.getOffhandItem() == itemStack) {
-                if (liver.getRemainingFireTicks() <= 1)
-                    liver.setRemainingFireTicks(21);
-            }
-        }
+    public void onHeld(LivingEntity entity) {
+        super.onHeld(entity);
+        if (entity.isInWaterOrRain()) return;
+        if (entity instanceof Player player && player.getAbilities().invulnerable) return;
+        if (entity.getRemainingFireTicks() <= 1)
+                entity.setRemainingFireTicks(21);
     }
 }
