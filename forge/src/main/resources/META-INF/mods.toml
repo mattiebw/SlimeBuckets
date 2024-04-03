@@ -64,3 +64,15 @@ Cute lil slime buckets ^-^
    versionRange="[1.20.1,1.21)"
    ordering="NONE"
    side="BOTH"
+[[dependencies.slimebuckets]]
+   modId = "architectury"
+   mandatory = true
+   versionRange = "[9,)"
+   ordering = "NONE"
+   side = "BOTH"
+[[dependencies.slimebuckets]]
+   modId = "cloth_config"
+   mandatory = true
+   versionRange = "[11.0,)"
+   ordering = "NONE"
+   side = "BOTH"

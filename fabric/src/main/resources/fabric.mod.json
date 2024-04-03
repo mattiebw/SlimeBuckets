@@ -15,6 +15,9 @@
   "entrypoints": {
     "main": [
       "dev.mattware.slimebuckets.fabric.SlimeBucketsFabric"
+    ],
+    "modmenu": [
+      "dev.mattware.slimebuckets.config.ModMenuIntegration"
     ]
   },
   "mixins": [

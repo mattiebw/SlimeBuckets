@@ -6,8 +6,11 @@ import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import dev.architectury.utils.Env;
 import dev.architectury.utils.EnvExecutor;
+import dev.mattware.slimebuckets.config.SlimeBucketsConfig;
 import dev.mattware.slimebuckets.item.SlimeBucketsItems;
 import dev.mattware.slimebuckets.particle.SlimeBucketsParticles;
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -19,6 +22,8 @@ public class SlimeBuckets
 {
 	public static final String MOD_ID = "slimebuckets";
 
+	public static SlimeBucketsConfig CONFIG = new SlimeBucketsConfig();
+
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
 	public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(MOD_ID, Registries.CREATIVE_MODE_TAB);
@@ -28,9 +33,12 @@ public class SlimeBuckets
 
 	public static void init() {
 		LOGGER.info("Initialising Slime Buckets ^-^");
+
+		AutoConfig.register(SlimeBucketsConfig.class, Toml4jConfigSerializer::new);
+		CONFIG = AutoConfig.getConfigHolder(SlimeBucketsConfig.class).getConfig();
+
 		// Register creative tabs, items, blocks, etc.
 		TABS.register();
-
 		SlimeBucketsItems.register();
 		SlimeBucketsParticles.register();
 		if (Platform.getEnvironment() == Env.CLIENT)
