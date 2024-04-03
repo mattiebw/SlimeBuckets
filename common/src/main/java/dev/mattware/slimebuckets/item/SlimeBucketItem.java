@@ -4,6 +4,7 @@ import dev.mattware.slimebuckets.SlimeBuckets;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -20,23 +21,29 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Objects;
 
 public class SlimeBucketItem extends Item {
     protected EntityType slimeType = EntityType.SLIME;
 
+    public static final String TAG_ENTITY_DATA = "slime_nbt";
+
     public SlimeBucketItem() {
-        super(new Item.Properties().arch$tab(SlimeBuckets.SLIME_BUCKETS_TAB).stacksTo(1));
+        super(new Item.Properties().arch$tab(SlimeBuckets.SLIME_BUCKETS_TAB).stacksTo(1).craftRemainder(Items.BUCKET));
     }
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand interactionHand) {
         ItemStack itemStack = player.getItemInHand(interactionHand);
         BlockHitResult blockHitResult = getPlayerPOVHitResult(level, player, ClipContext.Fluid.SOURCE_ONLY);
+
         if (blockHitResult.getType() == HitResult.Type.MISS) {
             return InteractionResultHolder.pass(itemStack);
         } else if (blockHitResult.getType() != HitResult.Type.BLOCK) {
@@ -44,20 +51,30 @@ public class SlimeBucketItem extends Item {
         } else {
             BlockPos blockPos = blockHitResult.getBlockPos();
             Direction direction = blockHitResult.getDirection();
-            BlockPos blockPos2 = blockPos.relative(direction);
-            if (level.mayInteract(player, blockPos) && player.mayUseItemAt(blockPos2, direction, itemStack)) {
+            BlockPos offsetBlockPos = blockPos.relative(direction);
+
+            if (level.mayInteract(player, blockPos) && player.mayUseItemAt(offsetBlockPos, direction, itemStack)) {
                 player.awardStat(Stats.ITEM_USED.get(this));
-                level.playSound(player, blockPos2, SoundEvents.BUCKET_EMPTY_FISH, SoundSource.NEUTRAL, 1.0f, 1.0f);
+                level.playSound(player, offsetBlockPos, SoundEvents.BUCKET_EMPTY_FISH, SoundSource.NEUTRAL, 1.0f, 1.0f);
+
                 if (level instanceof ServerLevel serverLevel)
                 {
                     Slime slime = (Slime) slimeType.create(serverLevel);
-                    if (slime != null)
-                    {
-                        slime.setSize(1, true);
-                        slime.moveTo(blockPos2, 0, 0);
+                    if (slime != null) {
+                        if (itemStack.hasTag()) {
+                            var entityData = itemStack.getTag().getCompound(TAG_ENTITY_DATA);
+                            if (entityData != null)
+                                slime.load(entityData);
+                        } else {
+                            slime.setSize(1, true);
+                        }
+                        slime.moveTo(offsetBlockPos, 0, 0);
+                        serverLevel.gameEvent(player, GameEvent.ENTITY_PLACE, slime.position());
                         serverLevel.addFreshEntity(slime);
+                        player.swing(interactionHand);
                     }
                 }
+
                 return InteractionResultHolder.sidedSuccess(!player.getAbilities().instabuild ? new ItemStack(Items.BUCKET) : itemStack, level.isClientSide);
             } else {
                 return InteractionResultHolder.fail(itemStack);
@@ -69,5 +86,17 @@ public class SlimeBucketItem extends Item {
     public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> list, TooltipFlag tooltipFlag) {
         super.appendHoverText(itemStack, level, list, tooltipFlag);
         list.add(Component.translatable("itemdesc.slimebuckets.slime_bucket").withStyle(ChatFormatting.AQUA));
+    }
+
+    @Override
+    public @NotNull Component getName(@NotNull ItemStack stack) {
+        if(stack.hasTag()) {
+            CompoundTag cmp = stack.getTag().getCompound(TAG_ENTITY_DATA);
+            if(cmp != null && cmp.contains("CustomName")) {
+                return Objects.requireNonNull(Component.Serializer.fromJson(cmp.getString("CustomName")));
+            }
+        }
+
+        return super.getName(stack);
     }
 }
