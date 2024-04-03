@@ -2,5 +2,7 @@
   "itemGroup.slimebuckets.slime_buckets_tab": "Slime Buckets",
 
   "item.slimebuckets.slime_bucket": "Bucket of Slime",
-  "itemdesc.slimebuckets.slime_bucket": "Gets excited when you're in a slime chunk"
+  "itemdesc.slimebuckets.slime_bucket": "Gets excited when you're in a slime chunk",
+  "item.slimebuckets.magma_cube_bucket": "Bucket of Hot Slime",
+  "itemdesc.slimebuckets.magma_cube_bucket": "So hot that it hurts to hold"
 }

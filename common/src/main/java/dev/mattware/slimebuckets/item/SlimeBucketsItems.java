@@ -18,6 +18,8 @@ public class SlimeBucketsItems {
 
     public static final RegistrySupplier<Item> SLIME_BUCKET = ITEMS.register("slime_bucket",
             SlimeBucketItem::new);
+    public static final RegistrySupplier<Item> MAGMA_CUBE_BUCKET = ITEMS.register("magma_cube_bucket",
+            MagmaCubeBucketItem::new);
 
     public static void register() {
         ITEMS.register();

@@ -12,7 +12,6 @@ import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -28,6 +27,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class SlimeBucketItem extends Item {
+    protected EntityType slimeType = EntityType.SLIME;
+
     public SlimeBucketItem() {
         super(new Item.Properties().arch$tab(SlimeBuckets.SLIME_BUCKETS_TAB).stacksTo(1));
     }
@@ -49,7 +50,7 @@ public class SlimeBucketItem extends Item {
                 level.playSound(player, blockPos2, SoundEvents.BUCKET_EMPTY_FISH, SoundSource.NEUTRAL, 1.0f, 1.0f);
                 if (level instanceof ServerLevel serverLevel)
                 {
-                    Slime slime = (Slime) EntityType.SLIME.create(serverLevel);
+                    Slime slime = (Slime) slimeType.create(serverLevel);
                     if (slime != null)
                     {
                         slime.setSize(1, true);
