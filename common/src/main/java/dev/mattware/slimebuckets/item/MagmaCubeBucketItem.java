@@ -26,6 +26,7 @@ public class MagmaCubeBucketItem extends SlimeBucketItem {
     @Override
     public void inventoryTick(ItemStack itemStack, Level level, Entity entity, int i, boolean bl) {
         if (entity instanceof LivingEntity liver) {
+            if (liver.isInWater()) return;
             if (liver instanceof Player player && player.getAbilities().invulnerable) return;
             if (liver.getMainHandItem() == itemStack || liver.getOffhandItem() == itemStack) {
                 if (liver.getRemainingFireTicks() <= 1)
