@@ -1,5 +1,6 @@
 package dev.mattware.slimebuckets.item;
 
+import dev.mattware.slimebuckets.SlimeBuckets;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -27,6 +28,7 @@ public class MagmaCubeBucketItem extends SlimeBucketItem {
     @Override
     public void onHeld(LivingEntity entity) {
         super.onHeld(entity);
+        if (!SlimeBuckets.CONFIG.magmaCubeBucketHurts) return;
         if (entity.isInWaterOrRain()) return;
         if (entity instanceof Player player && player.getAbilities().invulnerable) return;
         if (entity.getRemainingFireTicks() <= 1)

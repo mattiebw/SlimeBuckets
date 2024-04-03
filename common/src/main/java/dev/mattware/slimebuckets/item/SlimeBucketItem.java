@@ -1,6 +1,7 @@
 package dev.mattware.slimebuckets.item;
 
 import dev.mattware.slimebuckets.SlimeBuckets;
+import dev.mattware.slimebuckets.config.SlimeBucketsConfig;
 import dev.mattware.slimebuckets.particle.SlimeBucketsParticles;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -113,7 +114,8 @@ public class SlimeBucketItem extends Item {
     }
 
     public void onHeld(LivingEntity entity) {
-        if (entity.level().isClientSide && entity.level().getGameTime() % 3 == 0) {
+        if (SlimeBuckets.CONFIG.enableTrails &&
+                entity.level().isClientSide && entity.level().getGameTime() % 3 == 0) {
             if (heldParticle == null)
                 heldParticle = SlimeBucketsParticles.FALLING_SLIME.get();
             entity.level().addParticle(heldParticle, entity.position().x, entity.position().y + 1, entity.position().z, 0, 0, 0);

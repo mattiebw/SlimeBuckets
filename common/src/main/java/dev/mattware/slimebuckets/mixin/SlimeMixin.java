@@ -1,5 +1,6 @@
 package dev.mattware.slimebuckets.mixin;
 
+import dev.mattware.slimebuckets.SlimeBuckets;
 import dev.mattware.slimebuckets.item.SlimeBucketItem;
 import dev.mattware.slimebuckets.item.SlimeBucketsItems;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -31,6 +32,18 @@ public class SlimeMixin {
             if (heldItem.getItem() == Items.BUCKET)
             {
                 Level level = slime.level();
+
+                // TODO: Fix desync caused by this. Will have to sync config
+                if (slime.getClass() == Slime.class && !SlimeBuckets.CONFIG.slimeBucketingEnabled) {
+                    if (!level.isClientSide)
+                        player.displayClientMessage(Component.literal("Slime bucketing is disabled"), true);
+                    return;
+                } else if (slime.getClass() == MagmaCube.class && !SlimeBuckets.CONFIG.magmaCubeBucketingEnabled) {
+                    if (!level.isClientSide)
+                        player.displayClientMessage(Component.literal("Magma cube bucketing is disabled"), true);
+                    return;
+                }
+
                 if (slime.getSize() == 1) { // Can only pick up the smallest slimes
                     slime.playSound(SoundEvents.BUCKET_FILL_FISH, 1.0f, 1.0f);
                     ItemStack bucket = new ItemStack(slime instanceof MagmaCube ?

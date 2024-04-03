@@ -1,5 +1,6 @@
 package dev.mattware.slimebuckets;
 
+import dev.architectury.event.events.client.ClientLifecycleEvent;
 import dev.architectury.platform.Platform;
 import dev.architectury.registry.CreativeTabRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
@@ -23,6 +24,7 @@ public class SlimeBuckets
 	public static final String MOD_ID = "slimebuckets";
 
 	public static SlimeBucketsConfig CONFIG = new SlimeBucketsConfig();
+	public static SlimeBucketsConfig LOCAL_CONFIG = new SlimeBucketsConfig();
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
@@ -35,7 +37,8 @@ public class SlimeBuckets
 		LOGGER.info("Initialising Slime Buckets ^-^");
 
 		AutoConfig.register(SlimeBucketsConfig.class, Toml4jConfigSerializer::new);
-		CONFIG = AutoConfig.getConfigHolder(SlimeBucketsConfig.class).getConfig();
+		LOCAL_CONFIG = AutoConfig.getConfigHolder(SlimeBucketsConfig.class).getConfig();
+		CONFIG = LOCAL_CONFIG;
 
 		// Register creative tabs, items, blocks, etc.
 		TABS.register();
