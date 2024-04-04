@@ -9,7 +9,7 @@
   "contact": {},
 
   "license": "MIT",
-  "icon": "icon.png",
+  "icon": "assets/slimebuckets/icon.png",
 
   "environment": "*",
   "entrypoints": {
@@ -26,6 +26,8 @@
   ],
   "depends": {
     "fabricloader": ">=0.15.9",
-    "minecraft": ">=1.20.1"
+    "minecraft": ">=1.20.1",
+    "architectury": ">=9.0.0",
+    "cloth-config2": ">=11.0.0"
   }
 }

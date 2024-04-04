@@ -7,10 +7,12 @@
   "item.slimebuckets.magma_cube_bucket": "Bucket of Hot Slime",
   "itemdesc.slimebuckets.magma_cube_bucket": "So hot that it hurts to hold",
 
+  "text.autoconfig.slimebuckets.category.server": "Server Config",
+  "text.autoconfig.slimebuckets.category.client": "Client Config",
   "text.autoconfig.slimebuckets.title": "Slime Buckets Config",
-  "text.autoconfig.slimebuckets.option.slimeBucketingEnabled": "Slimes can be Bucketed",
-  "text.autoconfig.slimebuckets.option.magmaCubeBucketingEnabled": "Magma Cubes can be Bucketed",
-  "text.autoconfig.slimebuckets.option.enableSlimeChunkDetection": "Slime Buckets Detect Slime Chunks",
-  "text.autoconfig.slimebuckets.option.enableTrails": "Holding a Slime Bucket Creates Particles",
-  "text.autoconfig.slimebuckets.option.magmaCubeBucketHurts": "Holding a Magma Cube Bucket Burns"
+  "text.autoconfig.slimebuckets.option.clientConfig.enableTrails": "Holding a Slime Bucket Creates Particles",
+  "text.autoconfig.slimebuckets.option.serverConfig.slimeBucketingEnabled": "Slimes can be Bucketed",
+  "text.autoconfig.slimebuckets.option.serverConfig.magmaCubeBucketingEnabled": "Magma Cubes can be Bucketed",
+  "text.autoconfig.slimebuckets.option.serverConfig.enableSlimeChunkDetection": "Slime Buckets Detect Slime Chunks",
+  "text.autoconfig.slimebuckets.option.serverConfig.magmaCubeBucketHurts": "Holding a Magma Cube Bucket Burns"
 }

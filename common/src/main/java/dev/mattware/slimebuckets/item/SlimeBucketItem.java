@@ -114,8 +114,7 @@ public class SlimeBucketItem extends Item {
     }
 
     public void onHeld(LivingEntity entity) {
-        if (SlimeBuckets.CONFIG.enableTrails &&
-                entity.level().isClientSide && entity.level().getGameTime() % 3 == 0) {
+        if (entity.level().isClientSide && SlimeBuckets.CLIENT_CONFIG.enableTrails && entity.level().getGameTime() % 3 == 0) {
             if (heldParticle == null)
                 heldParticle = SlimeBucketsParticles.FALLING_SLIME.get();
             entity.level().addParticle(heldParticle, entity.position().x, entity.position().y + 1, entity.position().z, 0, 0, 0);

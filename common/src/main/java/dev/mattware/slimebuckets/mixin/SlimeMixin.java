@@ -34,11 +34,11 @@ public class SlimeMixin {
                 Level level = slime.level();
 
                 // TODO: Fix desync caused by this. Will have to sync config
-                if (slime.getClass() == Slime.class && !SlimeBuckets.CONFIG.slimeBucketingEnabled) {
+                if (slime.getClass() == Slime.class && !SlimeBuckets.SERVER_CONFIG.slimeBucketingEnabled) {
                     if (!level.isClientSide)
                         player.displayClientMessage(Component.literal("Slime bucketing is disabled"), true);
                     return;
-                } else if (slime.getClass() == MagmaCube.class && !SlimeBuckets.CONFIG.magmaCubeBucketingEnabled) {
+                } else if (slime.getClass() == MagmaCube.class && !SlimeBuckets.SERVER_CONFIG.magmaCubeBucketingEnabled) {
                     if (!level.isClientSide)
                         player.displayClientMessage(Component.literal("Magma cube bucketing is disabled"), true);
                     return;

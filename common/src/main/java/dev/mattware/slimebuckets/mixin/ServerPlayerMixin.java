@@ -17,7 +17,7 @@ public class ServerPlayerMixin {
         ServerPlayer player = (ServerPlayer)((Object)this);
 
         // Check the config to see if slime chunk detection is enabled
-        if (!SlimeBuckets.CONFIG.enableSlimeChunkDetection)
+        if (!SlimeBuckets.SERVER_CONFIG.enableSlimeChunkDetection)
         {
             // It's not, so just say we're not in one and return
             ((PlayerCustomData)player).setIsInSlimeChunk(false);
