@@ -5,8 +5,20 @@
 
   "name": "Slime Buckets",
   "description": "Cute lil slime buckets ^-^",
-  "authors": [],
-  "contact": {},
+  "authors": [
+    {
+      "name": "Matt Ware",
+      "contact": {
+        "email": "mattbware3@gmail.com",
+        "homepage": "https://mattware.dev/"
+      }
+    }
+  ],
+  "contact": {
+    "homepage": "https://modrinth.com/project/slime-buckets",
+    "sources": "https://github.com/MattieOF/SlimeBuckets",
+    "issues": "https://github.com/MattieOF/SlimeBuckets/issues"
+  },
 
   "license": "MIT",
   "icon": "assets/slimebuckets/icon.png",
