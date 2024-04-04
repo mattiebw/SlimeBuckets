@@ -33,7 +33,6 @@ public class SlimeMixin {
             {
                 Level level = slime.level();
 
-                // TODO: Fix desync caused by this. Will have to sync config
                 if (slime.getClass() == Slime.class && !SlimeBuckets.SERVER_CONFIG.slimeBucketingEnabled) {
                     if (!level.isClientSide)
                         player.displayClientMessage(Component.literal("Slime bucketing is disabled"), true);
