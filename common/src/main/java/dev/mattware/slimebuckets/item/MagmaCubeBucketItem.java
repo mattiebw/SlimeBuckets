@@ -17,6 +17,7 @@ public class MagmaCubeBucketItem extends SlimeBucketItem {
         super();
         slimeType = EntityType.MAGMA_CUBE;
         heldParticle = ParticleTypes.FALLING_LAVA;
+        enableSlimeChunkExcitement = false;
         descriptionComponent = Component.translatable("itemdesc.slimebuckets.magma_cube_bucket").withStyle(ChatFormatting.RED);
     }
 

@@ -26,11 +26,8 @@ public class SlimeBucketsItems {
                 new ResourceLocation("slime_chunk"),
                 (stack, clientWorld, livingEntity, i) -> {
                     if (livingEntity instanceof Player player) {
-                        // TODO: This is probably super slow, but I want to prevent the slime chunk functionality
-                        // from working in NEI likes when you don't actually have the item.
-                        return (player.getInventory().items.stream().anyMatch(itemStack -> itemStack.is(SLIME_BUCKET.get()))
-                                || player.getInventory().offhand.stream().anyMatch(itemStack -> itemStack.is(SLIME_BUCKET.get())))
-                                && player.slimeBuckets$isInSlimeChunk() ? 1 : 0;
+                        boolean inSlimeChunk = Boolean.TRUE.equals(stack.get(SlimeBucketsItemComponents.HOLDER_IN_SLIME_CHUNK));
+                        return inSlimeChunk ? 1 : 0;
                     } else {
                         return 0;
                     }

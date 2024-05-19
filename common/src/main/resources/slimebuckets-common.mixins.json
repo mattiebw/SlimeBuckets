@@ -4,8 +4,7 @@
   "package": "dev.mattware.slimebuckets.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "PlayerMixin",
-    "ServerPlayerMixin",
+    "DataComponentsAccessor",
     "SimpleParticleTypeAccessor",
     "SlimeMixin"
   ],

@@ -5,15 +5,16 @@ import dev.mattware.slimebuckets.particle.SlimeBucketsParticles;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
@@ -28,6 +29,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.NotNull;
@@ -38,6 +40,8 @@ public class SlimeBucketItem extends Item {
     protected EntityType slimeType = EntityType.SLIME;
     protected Component descriptionComponent;
     protected ParticleOptions heldParticle;
+
+    protected boolean enableSlimeChunkExcitement = true;
 
     public SlimeBucketItem() {
         super(new Item.Properties().arch$tab(SlimeBuckets.SLIME_BUCKETS_TAB).stacksTo(1).craftRemainder(Items.BUCKET));
@@ -110,6 +114,9 @@ public class SlimeBucketItem extends Item {
         if (entity instanceof LivingEntity liver) {
             if (liver.getMainHandItem() == itemStack || liver.getOffhandItem() == itemStack)
                 onHeld(liver);
+
+            if (enableSlimeChunkExcitement)
+                checkSlimeChunk(itemStack, entity);
         }
     }
 
@@ -118,6 +125,28 @@ public class SlimeBucketItem extends Item {
             if (heldParticle == null)
                 heldParticle = SlimeBucketsParticles.FALLING_SLIME.get();
             entity.level().addParticle(heldParticle, entity.position().x, entity.position().y + 1, entity.position().z, 0, 0, 0);
+        }
+    }
+
+    protected void checkSlimeChunk(ItemStack itemStack, Entity entity) {
+        boolean currentIsInSlimeChunk = Boolean.TRUE.equals(itemStack.get(SlimeBucketsItemComponents.HOLDER_IN_SLIME_CHUNK));
+
+        if (enableSlimeChunkExcitement && entity instanceof ServerPlayer player) {
+            // Check the config to see if slime chunk detection is enabled
+            if (!SlimeBuckets.SERVER_CONFIG.enableSlimeChunkDetection) {
+                // It's not, so just say we're not in one and return
+                if (currentIsInSlimeChunk)
+                    itemStack.set(SlimeBucketsItemComponents.HOLDER_IN_SLIME_CHUNK, false);
+                return;
+            }
+
+            // Check if we're in one and update the player
+            var chunkPos = player.chunkPosition();
+            final RandomSource slimeChunk = WorldgenRandom.seedSlimeChunk(
+                    chunkPos.x, chunkPos.z, player.serverLevel().getSeed(), 0x3ad8025fL);
+            boolean inSlimeChunk = slimeChunk.nextInt(10) == 0;
+            if (currentIsInSlimeChunk != inSlimeChunk)
+                itemStack.set(SlimeBucketsItemComponents.HOLDER_IN_SLIME_CHUNK, inSlimeChunk);
         }
     }
 }

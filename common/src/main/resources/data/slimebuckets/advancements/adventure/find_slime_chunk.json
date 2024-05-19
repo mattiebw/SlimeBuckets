@@ -12,26 +12,18 @@
   },
   "parent": "slimebuckets:adventure/bucket_slime",
   "criteria": {
-    "be_in_slime_chunk": {
-      "trigger": "slimebuckets:enter_slime_chunk"
-    },
-    "have_slime_bucket": {
+    "have_excited_slime_bucket": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "items": "slimebuckets:slime_bucket"
+            "items": "slimebuckets:slime_bucket",
+            "components": {
+              "slimebuckets:holder_in_slime_chunk": true
+            }
           }
         ]
       }
     }
-  },
-  "requirements": [
-    [
-      "have_slime_bucket"
-    ],
-    [
-      "be_in_slime_chunk"
-    ]
-  ]
+  }
 }
