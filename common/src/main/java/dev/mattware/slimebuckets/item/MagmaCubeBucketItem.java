@@ -14,14 +14,10 @@ import java.util.List;
 
 public class MagmaCubeBucketItem extends SlimeBucketItem {
     public MagmaCubeBucketItem() {
+        super();
         slimeType = EntityType.MAGMA_CUBE;
         heldParticle = ParticleTypes.FALLING_LAVA;
-    }
-
-    @Override
-    public void appendHoverText(ItemStack itemStack, TooltipContext tooltipContext, List<Component> list, TooltipFlag tooltipFlag) {
-        super.appendHoverText(itemStack, tooltipContext, list, tooltipFlag);
-        list.add(Component.translatable("itemdesc.slimebuckets.magma_cube_bucket").withStyle(ChatFormatting.RED));
+        descriptionComponent = Component.translatable("itemdesc.slimebuckets.magma_cube_bucket").withStyle(ChatFormatting.RED);
     }
 
     @Override

@@ -36,10 +36,12 @@ import java.util.List;
 
 public class SlimeBucketItem extends Item {
     protected EntityType slimeType = EntityType.SLIME;
+    protected Component descriptionComponent;
     protected ParticleOptions heldParticle;
 
     public SlimeBucketItem() {
         super(new Item.Properties().arch$tab(SlimeBuckets.SLIME_BUCKETS_TAB).stacksTo(1).craftRemainder(Items.BUCKET));
+        descriptionComponent = Component.translatable("itemdesc.slimebuckets.slime_bucket").withStyle(ChatFormatting.AQUA);
     }
 
     @Override
@@ -100,7 +102,7 @@ public class SlimeBucketItem extends Item {
             }
         }
 
-        list.add(Component.translatable("itemdesc.slimebuckets.slime_bucket").withStyle(ChatFormatting.AQUA));
+        list.add(descriptionComponent);
     }
 
     @Override
