@@ -72,10 +72,10 @@ public class SlimeBuckets
 		});
 
 		// Register creative tabs, items, blocks, etc.
+		SlimeBucketsParticles.register();
 		TABS.register();
 		SlimeBucketsItemComponents.registerComponents();
 		SlimeBucketsItems.register();
-		SlimeBucketsParticles.register();
 		if (Platform.getEnvironment() == Env.CLIENT)
 			SlimeBucketsParticles.registerClient();
 	}

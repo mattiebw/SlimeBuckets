@@ -45,6 +45,7 @@ public class SlimeBucketItem extends Item {
 
     public SlimeBucketItem() {
         super(new Item.Properties().arch$tab(SlimeBuckets.SLIME_BUCKETS_TAB).stacksTo(1).craftRemainder(Items.BUCKET));
+        heldParticle = SlimeBucketsParticles.FALLING_SLIME.get();
         descriptionComponent = Component.translatable("itemdesc.slimebuckets.slime_bucket").withStyle(ChatFormatting.AQUA);
     }
 
@@ -122,8 +123,6 @@ public class SlimeBucketItem extends Item {
 
     public void onHeld(LivingEntity entity) {
         if (entity.level().isClientSide && SlimeBuckets.CLIENT_CONFIG.enableTrails && entity.level().getGameTime() % 3 == 0) {
-            if (heldParticle == null)
-                heldParticle = SlimeBucketsParticles.FALLING_SLIME.get();
             entity.level().addParticle(heldParticle, entity.position().x, entity.position().y + 1, entity.position().z, 0, 0, 0);
         }
     }
