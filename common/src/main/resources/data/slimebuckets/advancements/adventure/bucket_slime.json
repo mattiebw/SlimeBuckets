@@ -1,0 +1,22 @@
+{
+  "display": {
+    "icon": {
+      "id": "slimebuckets:slime_bucket"
+    },
+    "title": "Slime Bucketer",
+    "description": "Bucket up a slime"
+  },
+  "parent": "minecraft:adventure/root",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "slimebuckets:slime_bucket"
+          }
+        ]
+      }
+    }
+  }
+}

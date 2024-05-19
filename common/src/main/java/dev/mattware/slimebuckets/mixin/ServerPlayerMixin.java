@@ -1,6 +1,7 @@
 package dev.mattware.slimebuckets.mixin;
 
 import dev.mattware.slimebuckets.SlimeBuckets;
+import dev.mattware.slimebuckets.advancements.SlimeBucketsTriggers;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
@@ -16,8 +17,7 @@ public class ServerPlayerMixin {
         ServerPlayer player = (ServerPlayer)((Object)this);
 
         // Check the config to see if slime chunk detection is enabled
-        if (!SlimeBuckets.SERVER_CONFIG.enableSlimeChunkDetection)
-        {
+        if (!SlimeBuckets.SERVER_CONFIG.enableSlimeChunkDetection) {
             // It's not, so just say we're not in one and return
             player.slimeBuckets$setIsInSlimeChunk(false);
             return;
@@ -27,6 +27,11 @@ public class ServerPlayerMixin {
         var chunkPos = player.chunkPosition();
         final RandomSource slimeChunk = WorldgenRandom.seedSlimeChunk(
                 chunkPos.x, chunkPos.z, player.serverLevel().getSeed(), 0x3ad8025fL);
-        player.slimeBuckets$setIsInSlimeChunk(slimeChunk.nextInt(10) == 0);
+        boolean inSlimeChunk = slimeChunk.nextInt(10) == 0;
+        player.slimeBuckets$setIsInSlimeChunk(inSlimeChunk);
+        if (inSlimeChunk) {
+            // Trigger "in slime chunk" advancement criterion
+            SlimeBucketsTriggers.ENTER_SLIME_CHUNK.trigger(player);
+        }
     }
 }

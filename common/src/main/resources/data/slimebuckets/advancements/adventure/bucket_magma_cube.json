@@ -1,0 +1,22 @@
+{
+  "display": {
+    "icon": {
+      "id": "slimebuckets:magma_cube_bucket"
+    },
+    "title": "Hot Slime Bucketer",
+    "description": "Bucket up a magma cube"
+  },
+  "parent": "slimebuckets:adventure/bucket_slime",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "slimebuckets:magma_cube_bucket"
+          }
+        ]
+      }
+    }
+  }
+}

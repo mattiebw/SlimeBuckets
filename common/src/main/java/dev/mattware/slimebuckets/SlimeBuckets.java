@@ -10,6 +10,7 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import dev.architectury.utils.Env;
 import dev.architectury.utils.EnvExecutor;
 import dev.architectury.utils.GameInstance;
+import dev.mattware.slimebuckets.advancements.SlimeBucketsTriggers;
 import dev.mattware.slimebuckets.config.SlimeBucketsConfig;
 import dev.mattware.slimebuckets.item.SlimeBucketsItems;
 import dev.mattware.slimebuckets.network.SyncServerConfig;
@@ -72,6 +73,7 @@ public class SlimeBuckets
 
 		// Register creative tabs, items, blocks, etc.
 		TABS.register();
+		SlimeBucketsTriggers.register();
 		SlimeBucketsItems.register();
 		SlimeBucketsParticles.register();
 		if (Platform.getEnvironment() == Env.CLIENT)

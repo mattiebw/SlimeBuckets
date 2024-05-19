@@ -1,0 +1,37 @@
+{
+  "display": {
+    "icon": {
+      "id": "slimebuckets:slime_bucket"
+    },
+    "title": {
+      "translate": "advancement.slimebuckets.find_slime_chunk.title"
+    },
+    "description": {
+      "translate": "advancement.slimebuckets.find_slime_chunk.desc"
+    }
+  },
+  "parent": "slimebuckets:adventure/bucket_slime",
+  "criteria": {
+    "be_in_slime_chunk": {
+      "trigger": "slimebuckets:enter_slime_chunk"
+    },
+    "have_slime_bucket": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "slimebuckets:slime_bucket"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "have_slime_bucket"
+    ],
+    [
+      "be_in_slime_chunk"
+    ]
+  ]
+}

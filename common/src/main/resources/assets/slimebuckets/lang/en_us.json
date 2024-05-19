@@ -7,6 +7,9 @@
   "item.slimebuckets.magma_cube_bucket": "Bucket of Hot Slime",
   "itemdesc.slimebuckets.magma_cube_bucket": "So hot that it hurts to hold",
 
+  "advancement.slimebuckets.find_slime_chunk.title": "Guiding Slime",
+  "advancement.slimebuckets.find_slime_chunk.desc": "Find a slime chunk with the help of a bucketed slime",
+
   "text.slimebuckets.slime_bucketing_disabled": "Slime bucketing is disabled",
   "text.slimebuckets.magma_cube_bucketing_disabled": "Magma cube bucketing is disabled",
   "text.slimebuckets.only_smallest_slimes": "Only the smallest slimes can be bucketed",
