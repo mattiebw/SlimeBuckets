@@ -36,11 +36,11 @@ public class SlimeMixin {
 
                 if (slime.getClass() == Slime.class && !SlimeBuckets.SERVER_CONFIG.slimeBucketingEnabled) {
                     if (!level.isClientSide)
-                        player.displayClientMessage(Component.literal("Slime bucketing is disabled"), true);
+                        player.displayClientMessage(Component.translatable("text.slimebuckets.slime_bucketing_disabled"), true);
                     return;
                 } else if (slime.getClass() == MagmaCube.class && !SlimeBuckets.SERVER_CONFIG.magmaCubeBucketingEnabled) {
                     if (!level.isClientSide)
-                        player.displayClientMessage(Component.literal("Magma cube bucketing is disabled"), true);
+                        player.displayClientMessage(Component.translatable("text.slimebuckets.magma_cube_bucketing_disabled"), true);
                     return;
                 }
 
@@ -65,9 +65,10 @@ public class SlimeMixin {
                     if (!level.isClientSide)
                     {
                         if (SlimeBuckets.SERVER_CONFIG.maxBucketableSlimeSize == 1)
-                            player.displayClientMessage(Component.literal("Only the smallest slimes can be bucketed"), true);
+                            player.displayClientMessage(Component.translatable("text.slimebuckets.only_smallest_slimes"), true);
                         else
-                            player.displayClientMessage(Component.literal("Only slimes of size " + SlimeBuckets.SERVER_CONFIG.maxBucketableSlimeSize + " or less can be bucketed"), true);
+                            player.displayClientMessage(Component.translatable("text.slimebuckets.max_slime_size",
+                                    String.valueOf(SlimeBuckets.SERVER_CONFIG.maxBucketableSlimeSize)), true);
                     }
                 }
             }

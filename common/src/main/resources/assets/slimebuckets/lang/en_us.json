@@ -7,6 +7,11 @@
   "item.slimebuckets.magma_cube_bucket": "Bucket of Hot Slime",
   "itemdesc.slimebuckets.magma_cube_bucket": "So hot that it hurts to hold",
 
+  "text.slimebuckets.slime_bucketing_disabled": "Slime bucketing is disabled",
+  "text.slimebuckets.magma_cube_bucketing_disabled": "Magma cube bucketing is disabled",
+  "text.slimebuckets.only_smallest_slimes": "Only the smallest slimes can be bucketed",
+  "text.slimebuckets.max_slime_size": "Only slimes of size %s or less can be bucketed",
+
   "text.autoconfig.slimebuckets.category.server": "Server Config",
   "text.autoconfig.slimebuckets.category.client": "Client Config",
   "text.autoconfig.slimebuckets.title": "Slime Buckets Config",
