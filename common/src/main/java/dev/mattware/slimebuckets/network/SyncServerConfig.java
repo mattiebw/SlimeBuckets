@@ -8,12 +8,13 @@ import org.jetbrains.annotations.NotNull;
 public record SyncServerConfig(boolean slimeBucketingEnabled,
                                boolean magmaCubeBucketingEnabled,
                                boolean enableSlimeChunkDetection,
-                               boolean magmaCubeBucketHurts) implements CustomPacketPayload {
+                               boolean magmaCubeBucketHurts,
+                               int maxBucketableSlime) implements CustomPacketPayload {
 
     public static StreamCodec<RegistryFriendlyByteBuf, SyncServerConfig> PACKET_CODEC = StreamCodec.of(SyncServerConfig::staticWrite, SyncServerConfig::new);
 
     public SyncServerConfig(RegistryFriendlyByteBuf buf) {
-        this(buf.readBoolean(), buf.readBoolean(), buf.readBoolean(), buf.readBoolean());
+        this(buf.readBoolean(), buf.readBoolean(), buf.readBoolean(), buf.readBoolean(), buf.readInt());
     }
 
     public void write(RegistryFriendlyByteBuf buf) {
@@ -25,6 +26,7 @@ public record SyncServerConfig(boolean slimeBucketingEnabled,
         buf.writeBoolean(ssc.magmaCubeBucketingEnabled);
         buf.writeBoolean(ssc.enableSlimeChunkDetection);
         buf.writeBoolean(ssc.magmaCubeBucketHurts);
+        buf.writeInt(ssc.maxBucketableSlime);
     }
 
     public static @NotNull Type<SyncServerConfig> staticType() {

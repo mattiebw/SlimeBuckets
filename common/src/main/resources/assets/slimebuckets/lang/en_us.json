@@ -14,5 +14,6 @@
   "text.autoconfig.slimebuckets.option.serverConfig.slimeBucketingEnabled": "Slimes can be Bucketed",
   "text.autoconfig.slimebuckets.option.serverConfig.magmaCubeBucketingEnabled": "Magma Cubes can be Bucketed",
   "text.autoconfig.slimebuckets.option.serverConfig.enableSlimeChunkDetection": "Slime Buckets Detect Slime Chunks",
-  "text.autoconfig.slimebuckets.option.serverConfig.magmaCubeBucketHurts": "Holding a Magma Cube Bucket Burns"
+  "text.autoconfig.slimebuckets.option.serverConfig.magmaCubeBucketHurts": "Holding a Magma Cube Bucket Burns",
+  "text.autoconfig.slimebuckets.option.serverConfig.maxBucketableSlimeSize": "Maximum Bucketable Slime Size"
 }

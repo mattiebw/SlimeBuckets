@@ -59,9 +59,6 @@ public class SlimeBuckets
 			CLIENT_CONFIG = CONFIG.clientConfig;
 		SERVER_CONFIG = CONFIG.serverConfig;
 
-		// Register network stuff
-		// NetworkManager.registerS2CPayloadType(CustomPacketPayload.Type, SyncServerConfig.PACKET_CODEC);
-
 		// Register config sync events
 		PlayerEvent.PLAYER_JOIN.register(SlimeBuckets::sendConfigToPlayer);
 		configHolder.registerLoadListener((manager, newData) -> {

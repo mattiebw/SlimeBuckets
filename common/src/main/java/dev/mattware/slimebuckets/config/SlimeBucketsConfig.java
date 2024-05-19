@@ -19,7 +19,7 @@ public class SlimeBucketsConfig extends PartitioningSerializer.GlobalData {
     @ConfigEntry.Category("client")
     @ConfigEntry.Gui.TransitiveObject
     public SlimeBucketsClientConfig clientConfig = new SlimeBucketsClientConfig();
-    
+
     @Config(name = SlimeBuckets.MOD_ID + "-server")
     public static class SlimeBucketsServerConfig implements ConfigData {
         // REMEMBER TO ADD TO writeToBuf and readFromBuf when adding new config!
@@ -28,13 +28,15 @@ public class SlimeBucketsConfig extends PartitioningSerializer.GlobalData {
         public boolean magmaCubeBucketingEnabled = true;
         public boolean enableSlimeChunkDetection = true;
         public boolean magmaCubeBucketHurts = true;
+        public int maxBucketableSlimeSize = 1;
 
         public SyncServerConfig writeToPacket() {
             return new SyncServerConfig(
                     slimeBucketingEnabled,
                     magmaCubeBucketingEnabled,
                     enableSlimeChunkDetection,
-                    magmaCubeBucketHurts
+                    magmaCubeBucketHurts,
+                    maxBucketableSlimeSize
             );
         }
 
@@ -43,6 +45,7 @@ public class SlimeBucketsConfig extends PartitioningSerializer.GlobalData {
             magmaCubeBucketingEnabled = packet.magmaCubeBucketingEnabled();
             enableSlimeChunkDetection = packet.enableSlimeChunkDetection();
             magmaCubeBucketHurts = packet.magmaCubeBucketHurts();
+            maxBucketableSlimeSize = packet.maxBucketableSlime();
         }
     }
 

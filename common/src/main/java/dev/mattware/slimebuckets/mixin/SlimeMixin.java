@@ -44,7 +44,7 @@ public class SlimeMixin {
                     return;
                 }
 
-                if (slime.getSize() == 1) { // Can only pick up the smallest slimes
+                if (slime.getSize() <= SlimeBuckets.SERVER_CONFIG.maxBucketableSlimeSize) { // Can only pick up the smallest slimes
                     slime.playSound(SoundEvents.BUCKET_FILL_FISH, 1.0f, 1.0f);
                     ItemStack bucket = new ItemStack(slime instanceof MagmaCube ?
                             SlimeBucketsItems.MAGMA_CUBE_BUCKET.get() : SlimeBucketsItems.SLIME_BUCKET.get());
@@ -63,7 +63,12 @@ public class SlimeMixin {
                     cir.setReturnValue(InteractionResult.sidedSuccess(level.isClientSide));
                 } else {
                     if (!level.isClientSide)
-                        player.displayClientMessage(Component.literal("Only the smallest slimes can be bucketed"), true);
+                    {
+                        if (SlimeBuckets.SERVER_CONFIG.maxBucketableSlimeSize == 1)
+                            player.displayClientMessage(Component.literal("Only the smallest slimes can be bucketed"), true);
+                        else
+                            player.displayClientMessage(Component.literal("Only slimes of size " + SlimeBuckets.SERVER_CONFIG.maxBucketableSlimeSize + " or less can be bucketed"), true);
+                    }
                 }
             }
         }
