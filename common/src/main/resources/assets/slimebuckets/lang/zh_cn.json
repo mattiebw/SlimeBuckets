@@ -1,0 +1,31 @@
+{
+  "itemGroup.slimebuckets.slime_buckets_tab": "史莱姆桶",
+
+  "item.slimebuckets.slime_bucket_named": "%s桶",
+  "item.slimebuckets.slime_bucket": "史莱姆桶",
+  "itemdesc.slimebuckets.slime_bucket": "当发现史莱姆区块时提示你",
+  "item.slimebuckets.magma_cube_bucket": "岩浆怪桶",
+  "itemdesc.slimebuckets.magma_cube_bucket": "热到烫手",
+
+  "advancement.slimebuckets.bucket_magma_cube.title": "炽热捕手",
+  "advancement.slimebuckets.bucket_magma_cube.desc": "用铁桶捕获一个岩浆怪",
+  "advancement.slimebuckets.bucket_slime.title": "黏液捕手",
+  "advancement.slimebuckets.bucket_slime.desc": "用铁桶捕获一个史莱姆",
+  "advancement.slimebuckets.find_slime_chunk.title": "重回老窝",
+  "advancement.slimebuckets.find_slime_chunk.desc": "使用史莱姆桶发现一个史莱姆区块",
+
+  "text.slimebuckets.slime_bucketing_disabled": "史莱姆桶已被禁用",
+  "text.slimebuckets.magma_cube_bucketing_disabled": "岩浆怪桶已被禁用",
+  "text.slimebuckets.only_smallest_slimes": "只有最小型的史莱姆能够被捕获",
+  "text.slimebuckets.max_slime_size": "只有大小为%s或更小型的史莱姆能够被捕获",
+
+  "text.autoconfig.slimebuckets.category.server": "服务器配置",
+  "text.autoconfig.slimebuckets.category.client": "客户端配置",
+  "text.autoconfig.slimebuckets.title": "史莱姆桶配置",
+  "text.autoconfig.slimebuckets.option.clientConfig.enableTrails": "手持史莱姆桶时触发粒子效果",
+  "text.autoconfig.slimebuckets.option.serverConfig.slimeBucketingEnabled": "可以使用铁桶捕获史莱姆",
+  "text.autoconfig.slimebuckets.option.serverConfig.magmaCubeBucketingEnabled": "可以使用铁桶捕获岩浆怪",
+  "text.autoconfig.slimebuckets.option.serverConfig.enableSlimeChunkDetection": "史莱姆桶可检测史莱姆区块",
+  "text.autoconfig.slimebuckets.option.serverConfig.magmaCubeBucketHurts": "手持岩浆怪桶时燃烧",
+  "text.autoconfig.slimebuckets.option.serverConfig.maxBucketableSlimeSize": "最大史莱姆捕获尺寸"
+}
