@@ -1,13 +1,11 @@
 package dev.mattware.slimebuckets.forge;
 
-import com.google.common.eventbus.EventBus;
 import dev.architectury.platform.forge.EventBuses;
 import dev.mattware.slimebuckets.SlimeBuckets;
 import dev.mattware.slimebuckets.config.SlimeBucketsConfig;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ConfigScreenHandler;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;

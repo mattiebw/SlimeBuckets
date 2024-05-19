@@ -1,6 +1,7 @@
 package dev.mattware.slimebuckets.config;
 
 import dev.mattware.slimebuckets.SlimeBuckets;
+import dev.mattware.slimebuckets.network.SyncServerConfig;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
@@ -18,8 +19,7 @@ public class SlimeBucketsConfig extends PartitioningSerializer.GlobalData {
     @ConfigEntry.Category("client")
     @ConfigEntry.Gui.TransitiveObject
     public SlimeBucketsClientConfig clientConfig = new SlimeBucketsClientConfig();
-
-
+    
     @Config(name = SlimeBuckets.MOD_ID + "-server")
     public static class SlimeBucketsServerConfig implements ConfigData {
         // REMEMBER TO ADD TO writeToBuf and readFromBuf when adding new config!
@@ -29,18 +29,20 @@ public class SlimeBucketsConfig extends PartitioningSerializer.GlobalData {
         public boolean enableSlimeChunkDetection = true;
         public boolean magmaCubeBucketHurts = true;
 
-        public void writeToBuf(FriendlyByteBuf buf) {
-            buf.writeBoolean(slimeBucketingEnabled);
-            buf.writeBoolean(magmaCubeBucketingEnabled);
-            buf.writeBoolean(enableSlimeChunkDetection);
-            buf.writeBoolean(magmaCubeBucketHurts);
+        public SyncServerConfig writeToPacket() {
+            return new SyncServerConfig(
+                    slimeBucketingEnabled,
+                    magmaCubeBucketingEnabled,
+                    enableSlimeChunkDetection,
+                    magmaCubeBucketHurts
+            );
         }
 
-        public void readFromBuf(FriendlyByteBuf buf) {
-            slimeBucketingEnabled = buf.readBoolean();
-            magmaCubeBucketingEnabled = buf.readBoolean();
-            enableSlimeChunkDetection = buf.readBoolean();
-            magmaCubeBucketHurts = buf.readBoolean();
+        public void readFromPacket(SyncServerConfig packet) {
+            slimeBucketingEnabled = packet.slimeBucketingEnabled();
+            magmaCubeBucketingEnabled = packet.magmaCubeBucketingEnabled();
+            enableSlimeChunkDetection = packet.enableSlimeChunkDetection();
+            magmaCubeBucketHurts = packet.magmaCubeBucketHurts();
         }
     }
 

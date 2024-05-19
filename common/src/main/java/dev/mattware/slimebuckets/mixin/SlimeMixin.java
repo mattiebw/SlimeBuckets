@@ -1,9 +1,9 @@
 package dev.mattware.slimebuckets.mixin;
 
 import dev.mattware.slimebuckets.SlimeBuckets;
-import dev.mattware.slimebuckets.item.SlimeBucketItem;
 import dev.mattware.slimebuckets.item.SlimeBucketsItems;
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -17,6 +17,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -52,7 +53,7 @@ public class SlimeMixin {
                         CompoundTag entityData = new CompoundTag();
                         slime.saveWithoutId(entityData);
                         entityData.remove("UUID"); // Remove the UUID, otherwise we'll cause an error
-                        bucket.getOrCreateTag().put(SlimeBucketItem.TAG_ENTITY_DATA, entityData);
+                        bucket.set(DataComponents.BUCKET_ENTITY_DATA, CustomData.of(entityData));
 
                         CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer)player, bucket);
                     }

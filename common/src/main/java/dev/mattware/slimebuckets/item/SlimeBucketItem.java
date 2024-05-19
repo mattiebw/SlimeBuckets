@@ -1,11 +1,12 @@
 package dev.mattware.slimebuckets.item;
 
 import dev.mattware.slimebuckets.SlimeBuckets;
-import dev.mattware.slimebuckets.config.SlimeBucketsConfig;
 import dev.mattware.slimebuckets.particle.SlimeBucketsParticles;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -30,7 +31,6 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -38,14 +38,12 @@ public class SlimeBucketItem extends Item {
     protected EntityType slimeType = EntityType.SLIME;
     protected ParticleOptions heldParticle;
 
-    public static final String TAG_ENTITY_DATA = "slime_nbt";
-
     public SlimeBucketItem() {
         super(new Item.Properties().arch$tab(SlimeBuckets.SLIME_BUCKETS_TAB).stacksTo(1).craftRemainder(Items.BUCKET));
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand interactionHand) {
+    public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand interactionHand) {
         ItemStack itemStack = player.getItemInHand(interactionHand);
         BlockHitResult blockHitResult = getPlayerPOVHitResult(level, player, ClipContext.Fluid.SOURCE_ONLY);
 
@@ -66,10 +64,9 @@ public class SlimeBucketItem extends Item {
                 {
                     Slime slime = (Slime) slimeType.create(serverLevel);
                     if (slime != null) {
-                        if (itemStack.hasTag()) {
-                            var entityData = itemStack.getTag().getCompound(TAG_ENTITY_DATA);
-                            if (entityData != null)
-                                slime.load(entityData);
+                        var entity = itemStack.get(DataComponents.BUCKET_ENTITY_DATA);
+                        if (entity != null) {
+                            entity.loadInto(slime);
                         } else {
                             slime.setSize(1, true);
                         }
@@ -88,21 +85,22 @@ public class SlimeBucketItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> list, TooltipFlag tooltipFlag) {
-        super.appendHoverText(itemStack, level, list, tooltipFlag);
-        list.add(Component.translatable("itemdesc.slimebuckets.slime_bucket").withStyle(ChatFormatting.AQUA));
-    }
+    public void appendHoverText(ItemStack itemStack, TooltipContext tooltipContext, List<Component> list, TooltipFlag tooltipFlag) {
+        super.appendHoverText(itemStack, tooltipContext, list, tooltipFlag);
 
-    @Override
-    public @NotNull Component getName(@NotNull ItemStack stack) {
-        if(stack.hasTag()) {
-            CompoundTag cmp = stack.getTag().getCompound(TAG_ENTITY_DATA);
-            if(cmp != null && cmp.contains("CustomName")) {
-                return Component.translatable("item.slimebuckets.slime_bucket_named", Component.Serializer.fromJson(cmp.getString("CustomName")));
+        var entity = itemStack.get(DataComponents.BUCKET_ENTITY_DATA);
+        if(entity != null) {
+            CompoundTag cmp = entity.copyTag(); // TODO: This seems like a shitty unnecessary copy
+            if(cmp.contains("CustomName")) {
+                // If the slime has a name, set the first element (the item name) to reflect that.
+                // TODO: This feels like a hack? Previously, we extended getName to achieve this, but now we need a provider
+                // for Component fromJson, so we do it here instead where we can get tooltipContext.registries().
+                list.set(0, Component.translatable("item.slimebuckets.slime_bucket_named",
+                        Component.Serializer.fromJson(cmp.getString("CustomName"), tooltipContext.registries())));
             }
         }
 
-        return super.getName(stack);
+        list.add(Component.translatable("itemdesc.slimebuckets.slime_bucket").withStyle(ChatFormatting.AQUA));
     }
 
     @Override

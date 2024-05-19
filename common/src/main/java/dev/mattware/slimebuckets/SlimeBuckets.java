@@ -12,17 +12,15 @@ import dev.architectury.utils.EnvExecutor;
 import dev.architectury.utils.GameInstance;
 import dev.mattware.slimebuckets.config.SlimeBucketsConfig;
 import dev.mattware.slimebuckets.item.SlimeBucketsItems;
+import dev.mattware.slimebuckets.network.SyncServerConfig;
 import dev.mattware.slimebuckets.particle.SlimeBucketsParticles;
-import io.netty.buffer.Unpooled;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
@@ -34,8 +32,7 @@ import org.slf4j.LoggerFactory;
 public class SlimeBuckets
 {
 	public static final String MOD_ID = "slimebuckets";
-	public static final short MOD_VERSION = 1;
-
+	
 	private static SlimeBucketsConfig CONFIG = new SlimeBucketsConfig();
 	public static SlimeBucketsConfig.SlimeBucketsServerConfig SERVER_CONFIG;
 	// Don't create CLIENT_CONFIG on the server, so we get an error if we try to use it.
@@ -43,8 +40,6 @@ public class SlimeBuckets
 	public static SlimeBucketsConfig.SlimeBucketsClientConfig CLIENT_CONFIG;
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-
-	public static final ResourceLocation SYNC_SERVER_CONFIG_PACKET = new ResourceLocation("slimebuckets", "sync_server_config");
 
 	public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(MOD_ID, Registries.CREATIVE_MODE_TAB);
 	public static final RegistrySupplier<CreativeModeTab> SLIME_BUCKETS_TAB = TABS.register("slime_buckets_tab", () ->
@@ -63,6 +58,9 @@ public class SlimeBuckets
 		if (Platform.getEnvironment() == Env.CLIENT)
 			CLIENT_CONFIG = CONFIG.clientConfig;
 		SERVER_CONFIG = CONFIG.serverConfig;
+
+		// Register network stuff
+		// NetworkManager.registerS2CPayloadType(CustomPacketPayload.Type, SyncServerConfig.PACKET_CODEC);
 
 		// Register config sync events
 		PlayerEvent.PLAYER_JOIN.register(SlimeBuckets::sendConfigToPlayer);
@@ -91,21 +89,12 @@ public class SlimeBuckets
 		LOGGER.info("Resending SlimeBuckets config to all players");
 		MinecraftServer server = GameInstance.getServer();
 		if (server != null) {
-			FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-			writeServerConfigPacket(buf);
-			NetworkManager.sendToPlayers(server.getPlayerList().getPlayers(), SYNC_SERVER_CONFIG_PACKET, buf);
+			NetworkManager.sendToPlayers(server.getPlayerList().getPlayers(), CONFIG.serverConfig.writeToPacket());
 		}
 	}
 
 	private static void sendConfigToPlayer(ServerPlayer player) {
-		FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-		writeServerConfigPacket(buf);
-		NetworkManager.sendToPlayer(player, SYNC_SERVER_CONFIG_PACKET, buf);
-	}
-
-	private static void writeServerConfigPacket(FriendlyByteBuf buf) {
-		buf.writeShort(MOD_VERSION);
-		CONFIG.serverConfig.writeToBuf(buf);
+		NetworkManager.sendToPlayer(player, CONFIG.serverConfig.writeToPacket());
 	}
 
 	private static void clientInitInternal() {
@@ -117,16 +106,10 @@ public class SlimeBuckets
 			}
 		});
 
-		// Config synchronisation
-		NetworkManager.registerReceiver(NetworkManager.Side.S2C, SYNC_SERVER_CONFIG_PACKET, (buf, context) -> {
-			// We've received the servers config
+		NetworkManager.registerReceiver(NetworkManager.Side.S2C, SyncServerConfig.staticType(), SyncServerConfig.PACKET_CODEC, (value, context) -> {
 			LOGGER.info("The server has sent their config over");
-			short serverVersion = buf.readShort();
-			if (serverVersion != MOD_VERSION) {
-				LOGGER.error("Server version " + serverVersion + " doesn't match client version " + MOD_VERSION + "!");
-			}
 			SlimeBucketsConfig newConfig = new SlimeBucketsConfig();
-			newConfig.serverConfig.readFromBuf(buf);
+			newConfig.serverConfig.readFromPacket(value);
 			SERVER_CONFIG = newConfig.serverConfig;
 		});
 	}

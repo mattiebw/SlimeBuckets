@@ -24,17 +24,17 @@ public abstract class PlayerMixin extends LivingEntity implements PlayerCustomDa
     }
 
     @Inject(method = "defineSynchedData", at = @At("TAIL"))
-    private void addSyncedData(CallbackInfo ci) {
-        this.entityData.define(DATA_PLAYER_IN_SLIME_CHUNK, false);
+    private void addSyncedData(SynchedEntityData.Builder builder, CallbackInfo ci) {
+        builder.define(DATA_PLAYER_IN_SLIME_CHUNK, false);
     }
 
     @Override
-    public boolean isInSlimeChunk() {
+    public boolean slimeBuckets$isInSlimeChunk() {
         return this.entityData.get(DATA_PLAYER_IN_SLIME_CHUNK);
     }
 
     @Override
-    public void setIsInSlimeChunk(boolean newValue) {
+    public void slimeBuckets$setIsInSlimeChunk(boolean newValue) {
         this.entityData.set(DATA_PLAYER_IN_SLIME_CHUNK, newValue);
     }
 

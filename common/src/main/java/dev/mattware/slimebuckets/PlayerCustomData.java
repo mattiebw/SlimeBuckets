@@ -1,9 +1,9 @@
 package dev.mattware.slimebuckets;
 
 public interface PlayerCustomData {
-    default boolean isInSlimeChunk() {
+    default boolean slimeBuckets$isInSlimeChunk() {
         return false;
     }
 
-    default void setIsInSlimeChunk(boolean newValue) { }
+    default void slimeBuckets$setIsInSlimeChunk(boolean newValue) { }
 }

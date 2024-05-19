@@ -3,7 +3,6 @@ package dev.mattware.slimebuckets.item;
 import dev.architectury.registry.item.ItemPropertiesRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
-import dev.mattware.slimebuckets.PlayerCustomData;
 import dev.mattware.slimebuckets.SlimeBuckets;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -31,7 +30,7 @@ public class SlimeBucketsItems {
                         // from working in NEI likes when you don't actually have the item.
                         return (player.getInventory().items.stream().anyMatch(itemStack -> itemStack.is(SLIME_BUCKET.get()))
                                 || player.getInventory().offhand.stream().anyMatch(itemStack -> itemStack.is(SLIME_BUCKET.get())))
-                                && ((PlayerCustomData) player).isInSlimeChunk() ? 1 : 0;
+                                && player.slimeBuckets$isInSlimeChunk() ? 1 : 0;
                     } else {
                         return 0;
                     }

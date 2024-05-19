@@ -1,6 +1,5 @@
 package dev.mattware.slimebuckets.mixin;
 
-import dev.mattware.slimebuckets.PlayerCustomData;
 import dev.mattware.slimebuckets.SlimeBuckets;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
@@ -20,7 +19,7 @@ public class ServerPlayerMixin {
         if (!SlimeBuckets.SERVER_CONFIG.enableSlimeChunkDetection)
         {
             // It's not, so just say we're not in one and return
-            ((PlayerCustomData)player).setIsInSlimeChunk(false);
+            player.slimeBuckets$setIsInSlimeChunk(false);
             return;
         }
 
@@ -28,6 +27,6 @@ public class ServerPlayerMixin {
         var chunkPos = player.chunkPosition();
         final RandomSource slimeChunk = WorldgenRandom.seedSlimeChunk(
                 chunkPos.x, chunkPos.z, player.serverLevel().getSeed(), 0x3ad8025fL);
-        ((PlayerCustomData)player).setIsInSlimeChunk(slimeChunk.nextInt(10) == 0);
+        player.slimeBuckets$setIsInSlimeChunk(slimeChunk.nextInt(10) == 0);
     }
 }
