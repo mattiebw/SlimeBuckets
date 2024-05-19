@@ -3,8 +3,12 @@
     "icon": {
       "id": "slimebuckets:magma_cube_bucket"
     },
-    "title": "Hot Slime Bucketer",
-    "description": "Bucket up a magma cube"
+    "title": {
+      "translate": "advancement.slimebuckets.bucket_magma_cube.title"
+    },
+    "description": {
+      "translate": "advancement.slimebuckets.bucket_magma_cube.desc"
+    }
   },
   "parent": "slimebuckets:adventure/bucket_slime",
   "criteria": {

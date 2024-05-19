@@ -3,8 +3,12 @@
     "icon": {
       "id": "slimebuckets:slime_bucket"
     },
-    "title": "Slime Bucketer",
-    "description": "Bucket up a slime"
+    "title": {
+      "translate": "advancement.slimebuckets.bucket_slime.title"
+    },
+    "description": {
+      "translate": "advancement.slimebuckets.bucket_slime.desc"
+    }
   },
   "parent": "minecraft:adventure/root",
   "criteria": {

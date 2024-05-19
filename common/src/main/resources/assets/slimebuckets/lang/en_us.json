@@ -7,6 +7,10 @@
   "item.slimebuckets.magma_cube_bucket": "Bucket of Hot Slime",
   "itemdesc.slimebuckets.magma_cube_bucket": "So hot that it hurts to hold",
 
+  "advancement.slimebuckets.bucket_magma_cube.title": "Hot Slime Bucketer",
+  "advancement.slimebuckets.bucket_magma_cube.desc": "Bucket up a magma cube",
+  "advancement.slimebuckets.bucket_slime.title": "Slime Bucketer",
+  "advancement.slimebuckets.bucket_slime.desc": "Bucket up a slime",
   "advancement.slimebuckets.find_slime_chunk.title": "Guiding Slime",
   "advancement.slimebuckets.find_slime_chunk.desc": "Find a slime chunk with the help of a bucketed slime",
 
