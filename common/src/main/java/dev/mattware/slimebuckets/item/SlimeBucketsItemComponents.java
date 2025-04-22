@@ -4,8 +4,6 @@ import com.mojang.serialization.Codec;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import dev.mattware.slimebuckets.SlimeBuckets;
-import dev.mattware.slimebuckets.mixin.DataComponentsAccessor;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;

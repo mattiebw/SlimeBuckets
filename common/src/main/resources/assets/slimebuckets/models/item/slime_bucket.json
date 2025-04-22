@@ -1,10 +1,6 @@
 {
-  "parent": "item/generated",
+  "parent": "minecraft:item/generated",
   "textures": {
     "layer0": "slimebuckets:item/slime_bucket"
-  },
-  "overrides": [
-    { "predicate": { "slimebuckets:slime_chunk": 0 }, "model": "slimebuckets:item/slime_bucket" },
-    { "predicate": { "slimebuckets:slime_chunk": 1 }, "model": "slimebuckets:item/slime_bucket_excited" }
-  ]
+  }
 }

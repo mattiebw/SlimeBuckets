@@ -60,7 +60,7 @@ public class SlimeMixin {
                     ItemStack newHeldResult = ItemUtils.createFilledResult(heldItem, player, bucket, false);
                     player.setItemInHand(interactionHand, newHeldResult);
                     slime.discard();
-                    cir.setReturnValue(InteractionResult.sidedSuccess(level.isClientSide));
+                    cir.setReturnValue(InteractionResult.SUCCESS);
                 } else {
                     if (!level.isClientSide)
                     {

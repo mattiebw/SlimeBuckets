@@ -6,7 +6,6 @@ import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
-import net.minecraft.network.FriendlyByteBuf;
 
 @Config(name = SlimeBuckets.MOD_ID)
 public class SlimeBucketsConfig extends PartitioningSerializer.GlobalData {
