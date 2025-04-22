@@ -3,10 +3,14 @@ package dev.mattware.slimebuckets.fabric;
 import dev.mattware.slimebuckets.SlimeBuckets;
 import net.fabricmc.api.ModInitializer;
 
-public class SlimeBucketsFabric implements ModInitializer {
+public final class SlimebucketsFabric implements ModInitializer {
     @Override
     public void onInitialize() {
+        // This code runs as soon as Minecraft is in a mod-load-ready state.
+        // However, some things (like resources) may still be uninitialized.
+        // Proceed with mild caution.
+
+        // Run our common setup.
         SlimeBuckets.init();
-        SlimeBuckets.clientInit(); // The function itself handles sided stuff
     }
 }

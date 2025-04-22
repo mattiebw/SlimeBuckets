@@ -2,44 +2,39 @@
   "schemaVersion": 1,
   "id": "slimebuckets",
   "version": "${version}",
-
   "name": "Slime Buckets",
   "description": "Cute lil slime buckets ^-^",
   "authors": [
-    {
-      "name": "Matt Ware",
-      "contact": {
-        "email": "mattbware3@gmail.com",
-        "homepage": "https://mattware.dev/"
-      }
-    }
+    "Matt Ware"
   ],
   "contact": {
     "homepage": "https://modrinth.com/project/slime-buckets",
-    "sources": "https://github.com/MattieOF/SlimeBuckets",
-    "issues": "https://github.com/MattieOF/SlimeBuckets/issues"
+    "sources": "https://github.com/mattiebw/SlimeBuckets",
+    "issues": "https://github.com/mattiebw/SlimeBuckets/issues"
   },
-
   "license": "MIT",
   "icon": "assets/slimebuckets/icon.png",
-
   "environment": "*",
   "entrypoints": {
     "main": [
-      "dev.mattware.slimebuckets.fabric.SlimeBucketsFabric"
+      "dev.mattware.slimebuckets.fabric.SlimebucketsFabric"
     ],
     "modmenu": [
       "dev.mattware.slimebuckets.config.ModMenuIntegration"
+    ],
+    "client": [
+      "dev.mattware.slimebuckets.fabric.client.SlimebucketsFabricClient"
     ]
   },
   "mixins": [
-    "slimebuckets.mixins.json",
-    "slimebuckets-common.mixins.json"
+    "slimebuckets.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.15.9",
-    "minecraft": ">=1.20.5",
-    "architectury": ">=12.0.0",
-    "cloth-config2": ">=14.0.0"
+    "fabricloader": ">=0.16",
+    "minecraft": "~1.21.1",
+    "java": ">=21",
+    "architectury": ">=13.0.8",
+    "fabric-api": "*",
+    "cloth-config2": ">=15.0.0"
   }
 }

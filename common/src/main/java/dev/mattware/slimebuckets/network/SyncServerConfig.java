@@ -1,8 +1,9 @@
 package dev.mattware.slimebuckets.network;
 
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 public record SyncServerConfig(boolean slimeBucketingEnabled,
@@ -11,17 +12,14 @@ public record SyncServerConfig(boolean slimeBucketingEnabled,
                                boolean magmaCubeBucketHurts,
                                int maxBucketableSlime) implements CustomPacketPayload {
 
-    public static StreamCodec<RegistryFriendlyByteBuf, SyncServerConfig> PACKET_CODEC = StreamCodec.of(SyncServerConfig::staticWrite, SyncServerConfig::new);
+    public static final StreamCodec<FriendlyByteBuf, SyncServerConfig> PACKET_CODEC = StreamCodec.of(SyncServerConfig::staticWrite, SyncServerConfig::staticRead);
+    public static final Type<SyncServerConfig> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath("slimebuckets", "sync_slimebuckets_config"));
 
-    public SyncServerConfig(RegistryFriendlyByteBuf buf) {
-        this(buf.readBoolean(), buf.readBoolean(), buf.readBoolean(), buf.readBoolean(), buf.readInt());
-    }
-
-    public void write(RegistryFriendlyByteBuf buf) {
+    public void write(FriendlyByteBuf buf) {
         staticWrite(buf, this);
     }
 
-    public static void staticWrite(RegistryFriendlyByteBuf buf, SyncServerConfig ssc) {
+    public static void staticWrite(FriendlyByteBuf buf, SyncServerConfig ssc) {
         buf.writeBoolean(ssc.slimeBucketingEnabled);
         buf.writeBoolean(ssc.magmaCubeBucketingEnabled);
         buf.writeBoolean(ssc.enableSlimeChunkDetection);
@@ -29,12 +27,12 @@ public record SyncServerConfig(boolean slimeBucketingEnabled,
         buf.writeInt(ssc.maxBucketableSlime);
     }
 
-    public static @NotNull Type<SyncServerConfig> staticType() {
-        return CustomPacketPayload.createType("sync_slimebuckets_config");
+    public static SyncServerConfig staticRead(FriendlyByteBuf buf) {
+        return new SyncServerConfig(buf.readBoolean(), buf.readBoolean(), buf.readBoolean(), buf.readBoolean(), buf.readInt());
     }
 
     @Override
     public @NotNull Type<? extends CustomPacketPayload> type() {
-        return staticType();
+        return TYPE;
     }
 }

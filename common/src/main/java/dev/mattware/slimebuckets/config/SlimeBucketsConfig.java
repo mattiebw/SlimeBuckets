@@ -22,7 +22,7 @@ public class SlimeBucketsConfig extends PartitioningSerializer.GlobalData {
 
     @Config(name = SlimeBuckets.MOD_ID + "-server")
     public static class SlimeBucketsServerConfig implements ConfigData {
-        // REMEMBER TO ADD TO writeToBuf and readFromBuf when adding new config!
+        // REMEMBER TO ADD TO writeToPacket and readFromPacket when adding new config!
         // TODO: make this automatic somehow.. serialisation, reflection?
         public boolean slimeBucketingEnabled = true;
         public boolean magmaCubeBucketingEnabled = true;

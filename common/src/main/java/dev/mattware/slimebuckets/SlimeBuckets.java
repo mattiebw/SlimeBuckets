@@ -1,5 +1,6 @@
 package dev.mattware.slimebuckets;
 
+import dev.architectury.event.events.client.ClientLifecycleEvent;
 import dev.architectury.event.events.client.ClientPlayerEvent;
 import dev.architectury.event.events.common.PlayerEvent;
 import dev.architectury.networking.NetworkManager;
@@ -74,14 +75,15 @@ public class SlimeBuckets
 		// Register creative tabs, items, blocks, etc.
 		SlimeBucketsParticles.register();
 		TABS.register();
-		SlimeBucketsItemComponents.registerComponents();
+		SlimeBucketsItemComponents.register();
 		SlimeBucketsItems.register();
-		if (Platform.getEnvironment() == Env.CLIENT)
-			SlimeBucketsParticles.registerClient();
-	}
 
-	public static void clientInit() {
-		EnvExecutor.runInEnv(Env.CLIENT, () -> SlimeBuckets::clientInitInternal);
+		// Register network stuff on the server.
+		if (Platform.getEnvironment() == Env.SERVER) {
+			NetworkManager.registerS2CPayloadType(SyncServerConfig.TYPE, SyncServerConfig.PACKET_CODEC);
+		}
+
+		EnvExecutor.runInEnv(Env.CLIENT, () -> SlimeBuckets.Client::initClient);
 	}
 
 	private static void resendConfigIfServer() {
@@ -96,20 +98,27 @@ public class SlimeBuckets
 		NetworkManager.sendToPlayer(player, CONFIG.serverConfig.writeToPacket());
 	}
 
-	private static void clientInitInternal() {
-		SlimeBucketsItems.registerProperties();
-		ClientPlayerEvent.CLIENT_PLAYER_QUIT.register(player -> {
-			if (Minecraft.getInstance().player == player) {
-				// We just quit, reset config to client's server config
-				SERVER_CONFIG = CONFIG.serverConfig;
-			}
-		});
+	@Environment(EnvType.CLIENT)
+	public static class Client
+	{
+		public static void initClient() {
+			ClientLifecycleEvent.CLIENT_SETUP.register(client -> {
+				SlimeBucketsItems.registerProperties();
+			});
 
-		NetworkManager.registerReceiver(NetworkManager.Side.S2C, SyncServerConfig.staticType(), SyncServerConfig.PACKET_CODEC, (value, context) -> {
-			LOGGER.info("The server has sent their config over");
-			SlimeBucketsConfig newConfig = new SlimeBucketsConfig();
-			newConfig.serverConfig.readFromPacket(value);
-			SERVER_CONFIG = newConfig.serverConfig;
-		});
+			ClientPlayerEvent.CLIENT_PLAYER_QUIT.register(player -> {
+				if (Minecraft.getInstance().player == player) {
+					// We just quit, reset config to client's server config
+					SERVER_CONFIG = CONFIG.serverConfig;
+				}
+			});
+
+			NetworkManager.registerReceiver(NetworkManager.Side.S2C, SyncServerConfig.TYPE, SyncServerConfig.PACKET_CODEC, (value, context) -> {
+				LOGGER.info("The server has sent their config over");
+				SlimeBucketsConfig newConfig = new SlimeBucketsConfig();
+				newConfig.serverConfig.readFromPacket(value);
+				SERVER_CONFIG = newConfig.serverConfig;
+			});
+		}
 	}
 }

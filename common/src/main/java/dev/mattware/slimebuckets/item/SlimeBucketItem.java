@@ -45,7 +45,6 @@ public class SlimeBucketItem extends Item {
 
     public SlimeBucketItem() {
         super(new Item.Properties().arch$tab(SlimeBuckets.SLIME_BUCKETS_TAB).stacksTo(1).craftRemainder(Items.BUCKET));
-        heldParticle = SlimeBucketsParticles.FALLING_SLIME.get();
         descriptionComponent = Component.translatable("itemdesc.slimebuckets.slime_bucket").withStyle(ChatFormatting.AQUA);
     }
 
@@ -122,20 +121,24 @@ public class SlimeBucketItem extends Item {
     }
 
     public void onHeld(LivingEntity entity) {
+        // We need to find a better place to put this.
+        if (heldParticle == null)
+            heldParticle = SlimeBucketsParticles.FALLING_SLIME.get();
+
         if (entity.level().isClientSide && SlimeBuckets.CLIENT_CONFIG.enableTrails && entity.level().getGameTime() % 3 == 0) {
             entity.level().addParticle(heldParticle, entity.position().x, entity.position().y + 1, entity.position().z, 0, 0, 0);
         }
     }
 
     protected void checkSlimeChunk(ItemStack itemStack, Entity entity) {
-        boolean currentIsInSlimeChunk = Boolean.TRUE.equals(itemStack.get(SlimeBucketsItemComponents.HOLDER_IN_SLIME_CHUNK));
+        boolean currentIsInSlimeChunk = Boolean.TRUE.equals(itemStack.get(SlimeBucketsItemComponents.HOLDER_IN_SLIME_CHUNK.get()));
 
         if (enableSlimeChunkExcitement && entity instanceof ServerPlayer player) {
             // Check the config to see if slime chunk detection is enabled
             if (!SlimeBuckets.SERVER_CONFIG.enableSlimeChunkDetection) {
                 // It's not, so just say we're not in one and return
                 if (currentIsInSlimeChunk)
-                    itemStack.set(SlimeBucketsItemComponents.HOLDER_IN_SLIME_CHUNK, false);
+                    itemStack.set(SlimeBucketsItemComponents.HOLDER_IN_SLIME_CHUNK.get(), false);
                 return;
             }
 
@@ -145,7 +148,7 @@ public class SlimeBucketItem extends Item {
                     chunkPos.x, chunkPos.z, player.serverLevel().getSeed(), 0x3ad8025fL);
             boolean inSlimeChunk = slimeChunk.nextInt(10) == 0;
             if (currentIsInSlimeChunk != inSlimeChunk)
-                itemStack.set(SlimeBucketsItemComponents.HOLDER_IN_SLIME_CHUNK, inSlimeChunk);
+                itemStack.set(SlimeBucketsItemComponents.HOLDER_IN_SLIME_CHUNK.get(), inSlimeChunk);
         }
     }
 }

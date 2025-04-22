@@ -4,7 +4,7 @@
     "layer0": "slimebuckets:item/slime_bucket"
   },
   "overrides": [
-    { "predicate": { "slime_chunk": 0 }, "model": "slimebuckets:item/slime_bucket" },
-    { "predicate": { "slime_chunk": 1 }, "model": "slimebuckets:item/slime_bucket_excited" }
+    { "predicate": { "slimebuckets:slime_chunk": 0 }, "model": "slimebuckets:item/slime_bucket" },
+    { "predicate": { "slimebuckets:slime_chunk": 1 }, "model": "slimebuckets:item/slime_bucket_excited" }
   ]
 }

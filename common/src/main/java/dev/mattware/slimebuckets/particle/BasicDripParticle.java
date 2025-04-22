@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 public class BasicDripParticle extends TextureSheetParticle {
     protected BasicDripParticle(ClientLevel clientLevel, double d, double e, double f) {
         super(clientLevel, d, e, f);
+        this.setSize(0.1f, 0.1f);
         speedUpWhenYMotionIsBlocked = false;
         lifetime = 60;
         gravity = 0.8f;
@@ -20,7 +21,7 @@ public class BasicDripParticle extends TextureSheetParticle {
 
     @Override
     public @NotNull ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+        return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
     }
 
     @Environment(EnvType.CLIENT)
