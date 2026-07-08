@@ -1,17 +1,17 @@
 package dev.mattware.slimebuckets.particle;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.particles.SimpleParticleType;
-import org.jetbrains.annotations.NotNull;
+import net.minecraft.util.RandomSource;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 // Minecraft's DripParticle doesn't have a provider and is all-around a bit fucked up, so let's make our own:
-@Environment(EnvType.CLIENT)
-public class BasicDripParticle extends TextureSheetParticle {
-    protected BasicDripParticle(ClientLevel clientLevel, double d, double e, double f) {
-        super(clientLevel, d, e, f);
+public class BasicDripParticle extends SingleQuadParticle {
+    protected BasicDripParticle(ClientLevel clientLevel, double d, double e, double f, TextureAtlasSprite sprite) {
+        super(clientLevel, d, e, f, sprite);
         this.setSize(0.1f, 0.1f);
         speedUpWhenYMotionIsBlocked = false;
         lifetime = 60;
@@ -20,11 +20,10 @@ public class BasicDripParticle extends TextureSheetParticle {
     }
 
     @Override
-    public @NotNull ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
+    protected @NonNull Layer getLayer() {
+        return Layer.OPAQUE;
     }
 
-    @Environment(EnvType.CLIENT)
     public static class Provider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet sprite;
 
@@ -32,10 +31,9 @@ public class BasicDripParticle extends TextureSheetParticle {
             this.sprite = spriteSet;
         }
 
-        public Particle createParticle(SimpleParticleType simpleParticleType, ClientLevel clientLevel, double d, double e, double f, double g, double h, double i) {
-            BasicDripParticle dripParticle = new BasicDripParticle(clientLevel, d, e, f);
-            dripParticle.pickSprite(this.sprite);
-            return dripParticle;
+        @Override
+        public @Nullable Particle createParticle(@NonNull SimpleParticleType particleOptions, @NonNull ClientLevel clientLevel, double d, double e, double f, double g, double h, double i, @NonNull RandomSource randomSource) {
+            return new BasicDripParticle(clientLevel, d, e, f, this.sprite.get(randomSource));
         }
     }
 }

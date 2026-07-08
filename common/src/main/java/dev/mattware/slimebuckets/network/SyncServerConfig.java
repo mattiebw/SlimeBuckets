@@ -3,7 +3,7 @@ package dev.mattware.slimebuckets.network;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 
 public record SyncServerConfig(boolean slimeBucketingEnabled,
@@ -13,11 +13,7 @@ public record SyncServerConfig(boolean slimeBucketingEnabled,
                                int maxBucketableSlime) implements CustomPacketPayload {
 
     public static final StreamCodec<FriendlyByteBuf, SyncServerConfig> PACKET_CODEC = StreamCodec.of(SyncServerConfig::staticWrite, SyncServerConfig::staticRead);
-    public static final Type<SyncServerConfig> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath("slimebuckets", "sync_slimebuckets_config"));
-
-    public void write(FriendlyByteBuf buf) {
-        staticWrite(buf, this);
-    }
+    public static final Type<SyncServerConfig> TYPE = new Type<>(Identifier.fromNamespaceAndPath("slimebuckets", "sync_slimebuckets_config"));
 
     public static void staticWrite(FriendlyByteBuf buf, SyncServerConfig ssc) {
         buf.writeBoolean(ssc.slimeBucketingEnabled);

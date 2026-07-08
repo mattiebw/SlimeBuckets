@@ -1,0 +1,6 @@
+- [x] Upgrade to 1.21.11
+  - [x] Fix player hand position finding 
+  - [x] Fix particles
+  - [x] Fix slime bucket appendHoverText usage (use tooltip component?)
+- [ ] Upgrade to 26.1
+- [ ] Upgrade to 26.2

@@ -10,10 +10,9 @@ import net.minecraft.world.item.Item;
 
 public class MagmaCubeBucketItem extends SlimeBucketItem {
     public MagmaCubeBucketItem(Item.Properties itemProperties) {
-        super(itemProperties);
+        super(itemProperties, Component.translatable("itemdesc.slimebuckets.magma_cube_bucket").withStyle(ChatFormatting.RED));
         slimeType = EntityType.MAGMA_CUBE;
         enableSlimeChunkExcitement = false;
-        descriptionComponent = Component.translatable("itemdesc.slimebuckets.magma_cube_bucket").withStyle(ChatFormatting.RED);
     }
 
     @Override

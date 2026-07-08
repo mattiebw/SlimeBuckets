@@ -12,14 +12,12 @@ import dev.architectury.utils.Env;
 import dev.architectury.utils.EnvExecutor;
 import dev.architectury.utils.GameInstance;
 import dev.mattware.slimebuckets.config.SlimeBucketsConfig;
-import dev.mattware.slimebuckets.item.SlimeBucketsItemComponents;
+import dev.mattware.slimebuckets.item.component.SlimeBucketsItemComponents;
 import dev.mattware.slimebuckets.item.SlimeBucketsItems;
 import dev.mattware.slimebuckets.network.SyncServerConfig;
 import dev.mattware.slimebuckets.particle.SlimeBucketsParticles;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -36,8 +34,6 @@ public class SlimeBuckets {
 
     private static SlimeBucketsConfig CONFIG = new SlimeBucketsConfig();
     public static SlimeBucketsConfig.SlimeBucketsServerConfig SERVER_CONFIG;
-    // Don't create CLIENT_CONFIG on the server, so we get an error if we try to use it.
-    @Environment(EnvType.CLIENT)
     public static SlimeBucketsConfig.SlimeBucketsClientConfig CLIENT_CONFIG;
 
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
@@ -97,7 +93,6 @@ public class SlimeBuckets {
         NetworkManager.sendToPlayer(player, CONFIG.serverConfig.writeToPacket());
     }
 
-    @Environment(EnvType.CLIENT)
     public static class Client {
         public static void initClient() {
             ClientLifecycleEvent.CLIENT_SETUP.register(client -> {

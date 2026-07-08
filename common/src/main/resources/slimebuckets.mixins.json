@@ -9,8 +9,7 @@
   "client": [
     "AbstractClientPlayerMixin",
     "ItemInHandLayerMixin",
-    "PlayerRendererAccessor",
-    "PlayerRendererMixin",
+    "AvatarRendererMixin",
     "RenderLayerAccessor"
   ],
   "injectors": {

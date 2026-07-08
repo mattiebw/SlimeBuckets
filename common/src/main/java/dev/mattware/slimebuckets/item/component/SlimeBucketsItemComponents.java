@@ -1,4 +1,4 @@
-package dev.mattware.slimebuckets.item;
+package dev.mattware.slimebuckets.item.component;
 
 import com.mojang.serialization.Codec;
 import dev.architectury.registry.registries.DeferredRegister;
@@ -12,8 +12,7 @@ public class SlimeBucketsItemComponents {
     public static final DeferredRegister<DataComponentType<?>> DATA_COMPONENT_TYPES = DeferredRegister.create(SlimeBuckets.MOD_ID, Registries.DATA_COMPONENT_TYPE);
 
     public static RegistrySupplier<DataComponentType<Boolean>> HOLDER_IN_SLIME_CHUNK = DATA_COMPONENT_TYPES.register("holder_in_slime_chunk",
-            () ->
-                DataComponentType.<Boolean>builder().persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build()
+            () -> DataComponentType.<Boolean>builder().persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build()
     );
 
     public static void register() {
