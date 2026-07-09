@@ -3,7 +3,7 @@ package dev.mattware.slimebuckets.item;
 import dev.mattware.slimebuckets.SlimeBuckets;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -11,7 +11,7 @@ import net.minecraft.world.item.Item;
 public class MagmaCubeBucketItem extends SlimeBucketItem {
     public MagmaCubeBucketItem(Item.Properties itemProperties) {
         super(itemProperties, Component.translatable("itemdesc.slimebuckets.magma_cube_bucket").withStyle(ChatFormatting.RED));
-        slimeType = EntityType.MAGMA_CUBE;
+        slimeType = EntityTypes.MAGMA_CUBE;
         enableSlimeChunkExcitement = false;
     }
 

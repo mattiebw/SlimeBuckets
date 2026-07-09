@@ -1,8 +1,8 @@
 package dev.mattware.slimebuckets.mixin;
 
 import dev.mattware.slimebuckets.SlimeBuckets;
-import dev.mattware.slimebuckets.item.SlimeBucketsItems;
-import net.minecraft.advancements.CriteriaTriggers;
+import dev.mattware.slimebuckets.util.SlimeBucketsUtil;
+import net.minecraft.advancements.triggers.CriteriaTriggers;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -12,8 +12,9 @@ import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.monster.MagmaCube;
-import net.minecraft.world.entity.monster.Slime;
+import net.minecraft.world.entity.monster.cubemob.AbstractCubeMob;
+import net.minecraft.world.entity.monster.cubemob.MagmaCube;
+import net.minecraft.world.entity.monster.cubemob.Slime;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
@@ -30,7 +31,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class SlimeMixin {
     @Inject(method = "mobInteract", at = @At("HEAD"), cancellable = true)
     public void onInteract(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
-        if ((Mob)((Object)this) instanceof Slime slime) {
+        if ((Mob)((Object)this) instanceof AbstractCubeMob slime) {
             ItemStack heldItem = player.getItemInHand(hand);
             if (heldItem.getItem() == Items.BUCKET)
             {
@@ -46,10 +47,13 @@ public class SlimeMixin {
                     return;
                 }
 
+                var bucketItem = SlimeBucketsUtil.getBucketItemForCubeMob(slime);
+                if (bucketItem == null)
+                    return;
+
                 if (slime.getSize() <= SlimeBuckets.SERVER_CONFIG.maxBucketableSlimeSize) { // Can only pick up the smallest slimes
                     slime.playSound(SoundEvents.BUCKET_FILL_FISH, 1.0f, 1.0f);
-                    ItemStack bucket = new ItemStack(slime instanceof MagmaCube ?
-                            SlimeBucketsItems.MAGMA_CUBE_BUCKET.get() : SlimeBucketsItems.SLIME_BUCKET.get());
+                    ItemStack bucket = new ItemStack(bucketItem.get());
                     if (!level.isClientSide()) {
                         // Save slime data to item NBT
                         ProblemReporter.ScopedCollector reporter = new ProblemReporter.ScopedCollector(slime.problemPath(), SlimeBuckets.LOGGER);

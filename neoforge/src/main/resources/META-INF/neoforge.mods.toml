@@ -16,28 +16,28 @@ logoFile = "assets/slimebuckets/icon.png"
 [[dependencies.slimebuckets]]
 modId = "neoforge"
 type = "required"
-versionRange = "[26.1,)"
+versionRange = "[26.2,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.slimebuckets]]
 modId = "minecraft"
 type = "required"
-versionRange = "[26.1,)"
+versionRange = "[26.2,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.slimebuckets]]
 modId = "architectury"
 type = "required"
-versionRange = "[20.0.0,)"
+versionRange = "[21.0.0,)"
 ordering = "AFTER"
 side = "BOTH"
 
 [[dependencies.slimebuckets]]
 modId = "cloth_config"
 type = "required"
-versionRange = "[26.1.0,)"
+versionRange = "[26.2.0,)"
 ordering = "AFTER"
 side = "BOTH"
 

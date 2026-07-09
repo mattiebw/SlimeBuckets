@@ -24,7 +24,8 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.monster.Slime;
+import net.minecraft.world.entity.monster.cubemob.AbstractCubeMob;
+import net.minecraft.world.entity.monster.cubemob.Slime;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -38,6 +39,7 @@ import net.minecraft.world.level.storage.TagValueInput;
 import net.minecraft.world.level.storage.TagValueOutput;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NonNull;
@@ -47,7 +49,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class SlimeBucketItem extends Item {
-    protected EntityType<?> slimeType = EntityType.SLIME;
+    protected EntityType<?> slimeType = EntityTypes.SLIME;
 
     protected boolean enableSlimeChunkExcitement = true;
 
@@ -82,7 +84,7 @@ public class SlimeBucketItem extends Item {
                 level.playSound(player, offsetBlockPos, SoundEvents.BUCKET_EMPTY_FISH, SoundSource.NEUTRAL, 1.0f, 1.0f);
 
                 if (level instanceof ServerLevel serverLevel) {
-                    Slime slime = (Slime) slimeType.create(serverLevel, EntitySpawnReason.BUCKET);
+                    AbstractCubeMob slime = (AbstractCubeMob) slimeType.create(serverLevel, EntitySpawnReason.BUCKET);
                     if (slime != null) {
                         var entity = itemStack.get(DataComponents.BUCKET_ENTITY_DATA);
                         if (entity != null) {
@@ -98,7 +100,7 @@ public class SlimeBucketItem extends Item {
                         } else {
                             slime.setSize(1, true);
                         }
-                        var loc = offsetBlockPos.getCenter();
+                        var loc = Vec3.atCenterOf(offsetBlockPos);
                         slime.teleportTo(loc.x, loc.y, loc.z);
                         serverLevel.gameEvent(player, GameEvent.ENTITY_PLACE, slime.position());
                         serverLevel.addFreshEntity(slime);
