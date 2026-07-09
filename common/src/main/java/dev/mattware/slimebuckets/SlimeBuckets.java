@@ -58,11 +58,11 @@ public class SlimeBuckets {
 
         // Register config sync events
         PlayerEvent.PLAYER_JOIN.register(SlimeBuckets::sendConfigToPlayer);
-        configHolder.registerLoadListener((manager, newData) -> {
+        configHolder.registerLoadListener((_, _) -> {
             resendConfigIfServer();
             return InteractionResult.PASS;
         });
-        configHolder.registerSaveListener((manager, newData) -> {
+        configHolder.registerSaveListener((_, _) -> {
             resendConfigIfServer();
             return InteractionResult.PASS;
         });
@@ -95,7 +95,7 @@ public class SlimeBuckets {
 
     public static class Client {
         public static void initClient() {
-            ClientLifecycleEvent.CLIENT_SETUP.register(client -> {
+            ClientLifecycleEvent.CLIENT_SETUP.register(_ -> {
                 // SlimeBucketsItems.registerProperties();
             });
 
@@ -106,7 +106,7 @@ public class SlimeBuckets {
                 }
             });
 
-            NetworkManager.registerReceiver(NetworkManager.Side.S2C, SyncServerConfig.TYPE, SyncServerConfig.PACKET_CODEC, (value, context) -> {
+            NetworkManager.registerReceiver(NetworkManager.Side.S2C, SyncServerConfig.TYPE, SyncServerConfig.PACKET_CODEC, (value, _) -> {
                 LOGGER.info("The server has sent their config over");
                 SlimeBucketsConfig newConfig = new SlimeBucketsConfig();
                 newConfig.serverConfig.readFromPacket(value);

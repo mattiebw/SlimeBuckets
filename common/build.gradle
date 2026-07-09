@@ -6,10 +6,17 @@ dependencies {
     // We depend on Fabric Loader here to use the Fabric @Environment annotations,
     // which get remapped to the correct annotations on each platform.
     // Do NOT use other classes from Fabric Loader.
-    modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
+    implementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
+    implementation "dev.architectury:architectury:$rootProject.architectury_api_version"
 
-    modImplementation "dev.architectury:architectury:$rootProject.architectury_api_version"
+    // NOTE(mware): Add Fabric API as a compile-only dependency for the common project,
+    // as it fixes an issue wherein MinecraftServer.getPlayerList() gives an error:
+    // "Cannot access net.fabricmc.fabric.api.resource.v1.DataResourceStore"
+    // Adding this dep fixes the error, but does not break the mod for NeoForge.
+    // We'll just have to make sure we don't call Fabric API anywhere accidentally,
+    // and try and remove this hack whenever an update is made.
+    compileOnly "net.fabricmc.fabric-api:fabric-api:$rootProject.fabric_api_version"
 
-    modApi "me.shedaniel.cloth:cloth-config:${rootProject.cloth_config_version}"
-    modApi "com.terraformersmc:modmenu:${rootProject.mod_menu_version}"
+    api "me.shedaniel.cloth:cloth-config:${rootProject.cloth_config_version}"
+    api "com.terraformersmc:modmenu:${rootProject.mod_menu_version}"
 }

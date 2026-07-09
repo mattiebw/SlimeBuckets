@@ -163,7 +163,7 @@ public class SlimeBucketItem extends Item {
             // Check if we're in one and update the player
             var chunkPos = player.chunkPosition();
             final RandomSource slimeChunk = WorldgenRandom.seedSlimeChunk(
-                    chunkPos.x, chunkPos.z, player.level().getSeed(), 0x3ad8025fL);
+                    chunkPos.x(), chunkPos.z(), player.level().getSeed(), 0x3ad8025fL);
             boolean inSlimeChunk = slimeChunk.nextInt(10) == 0;
             if (inSlimeChunk)
                 itemStack.set(SlimeBucketsItemComponents.HOLDER_IN_SLIME_CHUNK.get(), true);

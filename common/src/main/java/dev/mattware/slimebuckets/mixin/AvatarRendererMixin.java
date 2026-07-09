@@ -28,8 +28,8 @@ public class AvatarRendererMixin implements AvatarRendererMixinAccessor {
 
     @Inject(method = "extractRenderState(Lnet/minecraft/world/entity/Avatar;Lnet/minecraft/client/renderer/entity/state/AvatarRenderState;F)V",
             at = @At("TAIL"))
-    public void keepPlayer(Avatar avatar, AvatarRenderState avatarRenderState, float f, CallbackInfo ci) {
-        if (avatar instanceof AbstractClientPlayer acp)
+    public void keepPlayer(Avatar entity, AvatarRenderState state, float partialTicks, CallbackInfo ci) {
+        if (entity instanceof AbstractClientPlayer acp)
             slimebuckets$setPlayer(acp);
     }
 }

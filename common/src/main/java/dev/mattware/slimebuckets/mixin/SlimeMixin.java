@@ -29,20 +29,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Mob.class)
 public class SlimeMixin {
     @Inject(method = "mobInteract", at = @At("HEAD"), cancellable = true)
-    public void onInteract(Player player, InteractionHand interactionHand, CallbackInfoReturnable<InteractionResult> cir) {
+    public void onInteract(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
         if ((Mob)((Object)this) instanceof Slime slime) {
-            ItemStack heldItem = player.getItemInHand(interactionHand);
+            ItemStack heldItem = player.getItemInHand(hand);
             if (heldItem.getItem() == Items.BUCKET)
             {
                 Level level = slime.level();
 
                 if (slime.getClass() == Slime.class && !SlimeBuckets.SERVER_CONFIG.slimeBucketingEnabled) {
                     if (!level.isClientSide())
-                        player.displayClientMessage(Component.translatable("text.slimebuckets.slime_bucketing_disabled"), true);
+                        player.sendOverlayMessage(Component.translatable("text.slimebuckets.slime_bucketing_disabled"));
                     return;
                 } else if (slime.getClass() == MagmaCube.class && !SlimeBuckets.SERVER_CONFIG.magmaCubeBucketingEnabled) {
                     if (!level.isClientSide())
-                        player.displayClientMessage(Component.translatable("text.slimebuckets.magma_cube_bucketing_disabled"), true);
+                        player.sendOverlayMessage(Component.translatable("text.slimebuckets.magma_cube_bucketing_disabled"));
                     return;
                 }
 
@@ -64,17 +64,17 @@ public class SlimeMixin {
                         CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer)player, bucket);
                     }
                     ItemStack newHeldResult = ItemUtils.createFilledResult(heldItem, player, bucket, false);
-                    player.setItemInHand(interactionHand, newHeldResult);
+                    player.setItemInHand(hand, newHeldResult);
                     slime.discard();
                     cir.setReturnValue(InteractionResult.SUCCESS);
                 } else {
                     if (!level.isClientSide())
                     {
                         if (SlimeBuckets.SERVER_CONFIG.maxBucketableSlimeSize == 1)
-                            player.displayClientMessage(Component.translatable("text.slimebuckets.only_smallest_slimes"), true);
+                            player.sendOverlayMessage(Component.translatable("text.slimebuckets.only_smallest_slimes"));
                         else
-                            player.displayClientMessage(Component.translatable("text.slimebuckets.max_slime_size",
-                                    String.valueOf(SlimeBuckets.SERVER_CONFIG.maxBucketableSlimeSize)), true);
+                            player.sendOverlayMessage(Component.translatable("text.slimebuckets.max_slime_size",
+                                    String.valueOf(SlimeBuckets.SERVER_CONFIG.maxBucketableSlimeSize)));
                     }
                 }
             }

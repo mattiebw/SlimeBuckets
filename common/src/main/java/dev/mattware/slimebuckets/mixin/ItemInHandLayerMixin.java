@@ -20,8 +20,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ItemInHandLayer.class)
 public class ItemInHandLayerMixin<S extends ArmedEntityRenderState> {
     @Inject(method = "submitArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/item/ItemStackRenderState;submit(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;III)V"))
-    public void setHandPos(S armedEntityRenderState, ItemStackRenderState itemStackRenderState, ItemStack itemStack, HumanoidArm humanoidArm, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int i, CallbackInfo ci) {
-        if (armedEntityRenderState instanceof ArmedEntityRenderState) {
+    public void setHandPos(S state, ItemStackRenderState item, ItemStack itemStack, HumanoidArm arm, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, CallbackInfo ci) {
+        if (state instanceof ArmedEntityRenderState) {
             ItemInHandLayer<?, ?> layer = (ItemInHandLayer<?, ?>) (Object) this;
             var rend = ((RenderLayerAccessor<?, ?>)layer).getRenderer();
             if (!(rend instanceof AvatarRenderer<?>))
@@ -36,9 +36,9 @@ public class ItemInHandLayerMixin<S extends ArmedEntityRenderState> {
             pos.y += (float) camPos.y;
             pos.z += (float) camPos.z;
 
-            if (humanoidArm == HumanoidArm.RIGHT)
+            if (arm == HumanoidArm.RIGHT)
                 access.slimebuckets$setLastMainHandPos(pos);
-            else if (humanoidArm == HumanoidArm.LEFT)
+            else if (arm == HumanoidArm.LEFT)
                 access.slimebuckets$setLastOffHandPos(pos);
         }
     }
